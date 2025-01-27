@@ -1,0 +1,12 @@
+{
+  "scripts": {
+    "build": "npx @11ty/eleventy",
+    "preinstall": "if [ -z \"$IN_CONTAINER\" ] || ! $IN_CONTAINER; then echo \" [ERROR] Not in Docker\\n\"; rm -rf node_modules; exit 1; fi",
+    "start:dev": "npx @11ty/eleventy --serve"
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "3.0.0",
+    "@11ty/eleventy-plugin-inclusive-language": "1.0.3",
+    "eleventy-plugin-clean": "2.0.1"
+  }
+}

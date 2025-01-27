@@ -1,0 +1,11 @@
+# Folders
+.git
+.ignore
+.plugin-clean
+dist
+node_modules
+
+# Files
+*.log
+*.patch
+.DS_STORE

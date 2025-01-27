@@ -1,0 +1,45 @@
+##
+# https://github.com/moby/moby/issues/31101#issuecomment-922378041
+# Clarifies why there's no `version` prop, and why `extends` works regardless of
+# what the docs.docker.com documentation says.
+##
+
+services:
+  solar-generator:
+    build:
+      context: ./
+      dockerfile: .docker/Dockerfile
+    container_name: solar-generator
+    environment:
+      DATA_PATH: /app_data
+      TZ: America/Los_Angeles
+    healthcheck:
+      interval: "3s"
+      retries: 3
+      start_interval: "2s"
+      test: wget --no-verbose --tries=1 --spider --no-check-certificate http://localhost:3000 || exit 1
+      timeout: "2s"
+    image: theonewhoknocks/solar-generator
+    ports:
+      # Map Local port to the Container's exposed port
+      - "3000:3000"
+    user: "${CURR_UID}:${CURR_GID}"
+    volumes:
+      - "${PWD}/.app_data:/app_data"
+  
+  solar-generator-dev:
+    extends: solar-generator # allows for just changing key pieces of data for development
+    command: tail -F /dev/null # starts the container, and keeps it running
+    container_name: solar-generator-dev
+    environment:
+      NODE_ENV: development
+    ports:
+      # inspector
+      - "9229:9229"
+    volumes:
+      # Map shell files over, so they're maintained between sessions
+      - "${PWD}/.docker/.vimrc:/home/node/.vimrc"
+      - "${PWD}/.docker/.zshrc:/home/node/.zshrc"
+      - "${PWD}/.ignore:/home/node/dev" # allows for .zsh_history to be written
+      # Map the current directory over for development
+      - "${PWD}:/home/node/app"
