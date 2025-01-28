@@ -9,6 +9,7 @@ import CleanCSS from 'clean-css';
 import CleanPlugin from 'eleventy-plugin-clean';
 import * as esbuild from 'esbuild';
 import { glob } from 'glob';
+import htmlMin from 'html-minifier-terser';
 import markdownIt from 'markdown-it';
 import markdownItDecorate from 'markdown-it-decorate';
 import { mkdirp } from 'mkdirp';
@@ -101,15 +102,20 @@ export default async function(config) {
   });
   config.on('eleventy.beforeWatch', (_changedFiles) => { changedFiles = _changedFiles; });
   
-  // TODO: remove?
-  // config.addExtension('css', {
-	// 	outputFileExtension: 'css',
-	// 	compile: async function (fileContents) {
-  //     console.log(fileContents);
-  //     const result = new CleanCSS().minify(fileContents).styles;
-  //     return (data) => result;
-	// 	},
-	// });
+  config.addTransform('htmlMin', function (content) {
+		if ((this.page.outputPath || '').endsWith('.html')) {
+			return htmlMin.minify(content, {
+				collapseWhitespace: true,
+				removeComments: true,
+				useShortDoctype: true,
+			});
+		}
+
+		// If not an HTML output, return content as-is
+		return content;
+	});
+  
+  // TODO: remove? maybe use for favicons
   // config.addPassthroughCopy({
   //   './src/assets/*.css': 'css',
   //   './src/assets/*.js': 'js',
