@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+import { createReadStream } from 'node:fs';
 import { readFile, writeFile } from 'node:fs/promises';
 import { basename, extname } from 'node:path';
 import { IdAttributePlugin } from '@11ty/eleventy';
@@ -10,6 +12,16 @@ import { glob } from 'glob';
 import markdownIt from 'markdown-it';
 import markdownItDecorate from 'markdown-it-decorate';
 import { mkdirp } from 'mkdirp';
+
+
+const genHash = (path) => new Promise((resolve, reject) => {
+ const hash = createHash('sha256');
+ const rs = createReadStream(path);
+ 
+ rs.on('error', reject);
+ rs.on('data', chunk => hash.update(chunk));
+ rs.on('end', () => resolve(hash.digest('hex').substring(0, 5)));
+});
 
 export default async function(config) {
   const baseConfig = {
@@ -40,6 +52,9 @@ export default async function(config) {
 		port: 3000,
   });
   
+  const manifest = {};
+  config.addGlobalData('page.manifest', () => manifest);
+  
   let changedFiles;
   config.setEventEmitterMode('sequential');
   config.on('eleventy.before', async () => {
@@ -48,7 +63,7 @@ export default async function(config) {
     if (changedFiles) {
       files = changedFiles.filter((f) => /src\/assets\/.*\.(css|js)/.test(f));
       changedFiles = undefined;
-      console.log('[UPDATED]', files);
+      if (files.length) console.log('[UPDATED]', files);
     }
     else {
       files = await glob('./src/assets/*.{css,js}');
@@ -72,15 +87,17 @@ export default async function(config) {
         }
       }
       
-      // TODO: gen hash for file names, expose the hash to the shell with associated key
-      
       if (content) {
         const parDir = `${baseConfig.dir.output}/${dir}`;
+        const fName = basename(file, ext);
+        const fHash = await genHash(file);
+        const newName = `${fName}-${fHash}${ext}`;
+        
         await mkdirp(parDir);
-        await writeFile(`${parDir}/${basename(file)}`, content);
+        await writeFile(`${parDir}/${newName}`, content);
+        manifest[`${fName}${ext}`] = `/${dir}/${newName}`;
       }
     }
-    
   });
   config.on('eleventy.beforeWatch', (_changedFiles) => { changedFiles = _changedFiles; });
   
