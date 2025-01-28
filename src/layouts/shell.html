@@ -7,8 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
-    <meta name="dcterms.created" content="{{ page.created }}">
-    <meta name="dcterms.modified" content="{{ page.modified }}">
+    <meta name="dcterms.modified" content="{{ page.pubDate }}">
     
     <link rel="stylesheet" href="{{ page.manifest['theme.css'] }}">
   </head>
@@ -27,11 +26,7 @@
       <article>
         <h1 class="page__title">{{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}</h1>
         <div class="page__timestamp">
-          {% if page.modified != page.created %}
-            Modified: <time datetime="{{ page.modified }}">{{ page.modified }}</time>
-          {% else %}
-            Created: <time datetime="{{ page.created }}">{{ page.created }}</time>
-          {% endif %}
+          Published: <time datetime="{{ page.pubDate }}">{{ page.pubDate }}</time>
         </div>
         {{ content }}
       </article>

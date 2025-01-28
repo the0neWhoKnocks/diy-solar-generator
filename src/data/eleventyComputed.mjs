@@ -34,7 +34,11 @@ const getDate = async (fP, type) => {
 
 export default {
   page: {
-    created: async ({ page }) => await getDate(page.inputPath, 'created'),
-    modified: async ({ page }) => await getDate(page.inputPath, 'modified'),
+    pubDate: async ({ page }) => {
+      const created = await getDate(page.inputPath, 'created');
+      const modified = await getDate(page.inputPath, 'modified');
+      
+      return (modified != created) ? modified : created;
+    },
   },
 };
