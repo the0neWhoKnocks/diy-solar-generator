@@ -12,7 +12,7 @@ export CURR_GID=$(id -g)
 REPO_FUNCS+=("startcont")
 function startcont {
   # ensure required directories are set up
-  mkdir -p ./{.ignore}
+  mkdir -p ./.ignore
   mkdir -p ./src/{data,includes,layouts}
   touch ./.ignore/.zsh_history
   chmod 777 ./.ignore/.zsh_history

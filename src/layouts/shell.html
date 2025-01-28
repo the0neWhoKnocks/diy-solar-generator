@@ -1,15 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <title>{{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}</title>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
-    <meta name="dcterms.modified" content="{{ constants.updated }}">
+    <meta name="dcterms.created" content="{{ page.created }}">
+    <meta name="dcterms.modified" content="{{ page.modified }}">
     
-    <title>{{ constants.title }}</title>
+    <link rel="stylesheet" href="/css/theme.css">
   </head>
   <body>
-    <main>{{ content }}</main>
+    <main class="page">
+      <nav class="page__main-menu">
+        {% assign navPages = collections.page | eleventyNavigation %}
+        <ul>
+        {%- for entry in navPages %}
+          <li {% if entry.url == page.url %}class="is--current"{% endif %}>
+            <a href="{{ entry.url }}">{{ entry.title }}</a>
+          </li>
+        {%- endfor %}
+        </ul>
+      </nav>
+      <article>
+        <h1 class="page__title">{{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}</h1>
+        <div class="page__timestamp">
+          {% if page.modified != page.created %}
+            Modified: <time datetime="{{ page.modified }}">{{ page.modified }}</time>
+          {% else %}
+            Created: <time datetime="{{ page.created }}">{{ page.created }}</time>
+          {% endif %}
+        </div>
+        {{ content }}
+      </article>
+    </main>
   </body>
 </html>

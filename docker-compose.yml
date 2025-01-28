@@ -11,7 +11,6 @@ services:
       dockerfile: .docker/Dockerfile
     container_name: solar-generator
     environment:
-      DATA_PATH: /app_data
       TZ: America/Los_Angeles
     healthcheck:
       interval: "3s"
@@ -24,8 +23,6 @@ services:
       # Map Local port to the Container's exposed port
       - "3000:3000"
     user: "${CURR_UID}:${CURR_GID}"
-    volumes:
-      - "${PWD}/.app_data:/app_data"
   
   solar-generator-dev:
     extends: solar-generator # allows for just changing key pieces of data for development

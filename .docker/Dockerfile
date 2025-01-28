@@ -48,7 +48,8 @@ RUN mkdir -p $APP/node_modules && chown -R node:node /home/node/*
 ######
 ## Add App specific packages below
 ######
-#RUN apk add --no-cache --update __PKG__
+# - `git` to get modified times for files
+RUN apk add --no-cache --update git
 
 WORKDIR $APP
 
