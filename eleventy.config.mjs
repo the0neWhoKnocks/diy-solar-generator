@@ -13,6 +13,7 @@ import htmlMin from 'html-minifier-terser';
 import markdownIt from 'markdown-it';
 import markdownItDecorate from 'markdown-it-decorate';
 import { mkdirp } from 'mkdirp';
+import sharp from 'sharp';
 
 
 const genHash = (path) => new Promise((resolve, reject) => {
@@ -106,6 +107,32 @@ export default async function(config) {
           );
           break;
         }
+        case '.jpg': {
+          if (file.includes('/parts/')) {
+            const sizeOpts = { background: '#ffffff', fit: 'contain' };
+            const dir = 'imgs/parts';
+            
+            pendingFiles.push(
+              new Promise(async (resolve) => {
+                await createFile({
+                  content: await sharp(file).resize(450, 450, sizeOpts).jpeg({ quality: 90 }).toBuffer(),
+                  dir, ext, file,
+                });
+                resolve();
+              })
+            );
+            pendingFiles.push(
+              new Promise(async (resolve) => {
+                await createFile({
+                  content: await sharp(file).resize(75, 75, sizeOpts).jpeg({ quality: 90 }).toBuffer(),
+                  dir, ext, file, suffix: '-thumb',
+                });
+                resolve();
+              })
+            );
+          }
+          break;
+        }
         case '.js': {
           pendingFiles.push(
             new Promise(async (resolve) => {
@@ -129,17 +156,17 @@ export default async function(config) {
   config.on('eleventy.beforeWatch', (_changedFiles) => { changedFiles = _changedFiles; });
   
   config.addTransform('htmlMin', function (content) {
-		if ((this.page.outputPath || '').endsWith('.html')) {
-			return htmlMin.minify(content, {
-				collapseWhitespace: true,
-				removeComments: true,
-				useShortDoctype: true,
-			});
-		}
-
-		// If not an HTML output, return content as-is
-		return content;
-	});
+    if ((this.page.outputPath || '').endsWith('.html')) {
+      return htmlMin.minify(content, {
+        collapseWhitespace: true,
+        removeComments: true,
+        useShortDoctype: true,
+      });
+    }
+    
+    // If not an HTML output, return content as-is
+    return content;
+  });
   
   // TODO: remove? maybe use for favicons
   // config.addPassthroughCopy({
