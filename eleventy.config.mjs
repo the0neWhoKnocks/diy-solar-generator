@@ -168,6 +168,26 @@ export default async function(config) {
     return content;
   });
   
+  config.addShortcode('imgPopUp', function(lrgURL, alt) {
+    const mani = this.ctx?.environments?.manifest;
+    
+    if (mani) {
+      const parseURL = (url) => (url.startsWith('mani:'))
+        ? mani[url.replace(/^mani:/, '')]
+        : url;
+      const altAttr = (alt) ? ` alt="${alt}"` : '';
+      const ext = '.jpg';
+      
+      return [
+        `<a href="${parseURL(`${lrgURL}${ext}`)}" target="_blank">`,
+        `  <img src="${parseURL(`${lrgURL}-thumb${ext}`)}"${altAttr} />`,
+        '</a>',
+      ].join('');
+    }
+    
+    return '<span>[ERROR: Missing manifest]</span>';
+  });
+  
   // TODO: remove? maybe use for favicons
   // config.addPassthroughCopy({
   //   './src/assets/*.css': 'css',

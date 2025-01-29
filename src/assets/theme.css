@@ -48,14 +48,69 @@ main {
 
 main > article {
   padding: 1em;
+  padding-bottom: 2em; /* since `scrollbar-gutter` adds extra padding, this evens out the bottom */
 }
 
 a {
   color: inherit;
 }
 
+img {
+  display: block;
+}
+
 article {
   overflow: auto;
+  scrollbar-gutter: stable both-edges;
+}
+
+table {
+  border-collapse: collapse;
+  background: #ccc;
+}
+table, table :where(th, td) {
+  border: solid 1px #000;
+}
+table thead th {
+  color: #eee;
+  background: #000;
+}
+table tbody td {
+  padding: 0.5em;
+}
+
+details {
+  overflow: hidden;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 0.5em 0.5em 0;
+  background: #333;
+}
+details:not(:first-of-type) {
+  margin-top: 1em;
+}
+details summary {
+  color: #eee;
+  font-weight: bold;
+  padding: 0.5em;
+  margin: -0.5em -0.5em 0;
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+details summary::after {
+  content: '⊕';
+  font-size: 2em;
+  font-family: monospace;
+  line-height: 0.5em;
+}
+details[open] summary {
+  border-bottom: 1px solid #000;
+  margin-bottom: 0.5em;
+}
+details[open] summary::after {
+  content: '⊟';
 }
 
 .page__main-menu ul {
@@ -76,6 +131,10 @@ article {
 .page__main-menu ul li.is--current {
   color: #eee;
   background: #000;
+}
+
+.pt-table .optional {
+  background: #ffff8538;
 }
 
 /* h1, h2, h3, h4, h5, h6 {
