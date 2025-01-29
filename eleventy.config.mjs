@@ -53,51 +53,77 @@ export default async function(config) {
 		port: 3000,
   });
   
-  const manifest = {};
-  config.addGlobalData('page.manifest', () => manifest);
+  config.setUseGitIgnore(false); // so that manifest is detected
   
+  const manifest = {};
+  const assetsGlob = './src/assets/**/*.{css,jpg,js}';
+  const assetsRegEx = /src\/assets\/.*\.(css|jpg|js)/;
   let changedFiles;
   config.setEventEmitterMode('sequential');
   config.on('eleventy.before', async () => {
     let files;
     
     if (changedFiles) {
-      files = changedFiles.filter((f) => /src\/assets\/.*\.(css|js)/.test(f));
+      files = changedFiles.filter((f) => assetsRegEx.test(f));
       changedFiles = undefined;
       if (files.length) console.log('[UPDATED]', files);
     }
     else {
-      files = await glob('./src/assets/*.{css,js}');
+      files = await glob(assetsGlob);
       console.log('[BUILD]', files);
     }
     
+    async function createFile({ content, dir, ext, file, suffix = '' }) {
+      const parDir = `${baseConfig.dir.output}/${dir}`;
+      const fName = `${basename(file, ext)}${suffix}`;
+      const fHash = await genHash(file);
+      const newName = `${fName}-${fHash}${ext}`;
+      
+      await mkdirp(parDir);
+      await writeFile(`${parDir}/${newName}`, content);
+      manifest[`${dir}/${fName}${ext}`] = `/${dir}/${newName}`;
+    }
+    
+    const pendingFiles = [];
     for (const file of files) {
       const ext = extname(file);
-      let content, dir;
       
+      // NOTE: I don't like the nested Promises with async functions, but
+      // without them, the build's much slower. I tried multiple configurations
+      // but this was the fastest.
       switch (ext) {
         case '.css': {
-          content = new CleanCSS().minify([file]).styles;
-          dir = 'css';
+          pendingFiles.push(
+            new Promise(async (resolve) => {
+              await createFile({
+                content: new CleanCSS().minify([file]).styles,
+                dir: 'css',
+                ext,
+                file,
+              });
+              resolve();
+            })
+          );
           break;
         }
         case '.js': {
-          content = (await esbuild.transform(await readFile(file), { minify: true })).code;
-          dir = 'js';
+          pendingFiles.push(
+            new Promise(async (resolve) => {
+              await createFile({
+                content: (await esbuild.transform(await readFile(file), { minify: true })).code,
+                dir: 'js', ext, file,
+              });
+              resolve();
+            })
+          );
           break;
         }
       }
-      
-      if (content) {
-        const parDir = `${baseConfig.dir.output}/${dir}`;
-        const fName = basename(file, ext);
-        const fHash = await genHash(file);
-        const newName = `${fName}-${fHash}${ext}`;
-        
-        await mkdirp(parDir);
-        await writeFile(`${parDir}/${newName}`, content);
-        manifest[`${fName}${ext}`] = `/${dir}/${newName}`;
-      }
+    }
+    
+    if (pendingFiles.length) {
+      await Promise.all(pendingFiles);
+      await writeFile('./src/data/manifest.json', JSON.stringify(manifest));
     }
   });
   config.on('eleventy.beforeWatch', (_changedFiles) => { changedFiles = _changedFiles; });
@@ -120,7 +146,7 @@ export default async function(config) {
   //   './src/assets/*.css': 'css',
   //   './src/assets/*.js': 'js',
   // });
-  config.addWatchTarget('./src/assets/*.{css,js}');
+  config.addWatchTarget(assetsGlob);
   
 	return baseConfig;
 };

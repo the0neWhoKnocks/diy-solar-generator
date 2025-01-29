@@ -9,3 +9,4 @@ node_modules
 *.log
 *.patch
 .DS_STORE
+src/data/manifest.json
