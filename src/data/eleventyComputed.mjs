@@ -11,7 +11,7 @@ const formatDate = (date) => {
     year: 'numeric',
   }))
     .formatToParts(date)
-    .reduce((str, { type, value }) => str.replace(type, value), 'year/month/day');
+    .reduce((str, { type, value }) => str.replace(type, value), 'year-month-day');
 }
 const getDate = async (fP, type) => {
   const gitCmd = (type === 'created')

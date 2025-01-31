@@ -10,21 +10,31 @@
     <meta name="dcterms.modified" content="{{ page.pubDate }}">
     
     <link rel="stylesheet" href="{{ manifest['css/theme.css'] }}">
+    <link rel="stylesheet" href="{{ manifest['css/prism-tomorrow.css'] }}">
   </head>
   <body>
     <main class="page">
-      <nav class="page__main-menu">
-        {% assign navPages = collections.page | eleventyNavigation %}
-        <ul>
-        {%- for entry in navPages %}
-          <li {% if entry.url == page.url %}class="is--current"{% endif %}>
-            <a href="{{ entry.url }}">{{ entry.title }}</a>
-          </li>
-        {%- endfor %}
-        </ul>
-      </nav>
-      <article>
-        <h1 class="page__title">{{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}</h1>
+      <header>
+        <nav class="page__main-menu">
+          {% assign navPages = collections.page | eleventyNavigation %}
+          <ul>
+          {%- for entry in navPages %}
+            <li {% if entry.url == page.url %}class="is--current"{% endif %}>
+              <a href="{{ entry.url }}">{{ entry.title }}</a>
+            </li>
+          {%- endfor %}
+          </ul>
+        </nav>
+        <h1
+          class="page__title"
+          data-text="{{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}"
+        >
+          <div>
+            {{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}
+          </div>
+        </h1>
+      </header>
+      <article class="for--{{ page.class }}">
         <div class="page__timestamp">
           Published: <time datetime="{{ page.pubDate }}">{{ page.pubDate }}</time>
         </div>

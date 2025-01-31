@@ -5,6 +5,7 @@ import { basename, extname } from 'node:path';
 import { IdAttributePlugin } from '@11ty/eleventy';
 import NavigationPlugin from '@11ty/eleventy-navigation';
 import InclusiveLangPlugin from '@11ty/eleventy-plugin-inclusive-language';
+import SyntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 import CleanCSS from 'clean-css';
 import CleanPlugin from 'eleventy-plugin-clean';
 import * as esbuild from 'esbuild';
@@ -13,6 +14,7 @@ import htmlMin from 'html-minifier-terser';
 import markdownIt from 'markdown-it';
 import markdownItDecorate from 'markdown-it-decorate';
 import { mkdirp } from 'mkdirp';
+import { rimraf } from 'rimraf';
 import sharp from 'sharp';
 
 
@@ -26,6 +28,8 @@ const genHash = (path) => new Promise((resolve, reject) => {
 });
 
 export default async function(config) {
+  await rimraf('dist/{css,js}/*', { glob: true });
+  
   const baseConfig = {
     dir: {
       input: './src',
@@ -41,6 +45,11 @@ export default async function(config) {
   config.addPlugin(IdAttributePlugin);
   config.addPlugin(InclusiveLangPlugin);
   config.addPlugin(NavigationPlugin);
+  config.addPlugin(SyntaxHighlight, {
+    preAttributes: {
+      'data-language': ({ language, content, options }) => language,
+    },
+  });
   
   const mdI = markdownIt({
     breaks: true,
@@ -57,8 +66,8 @@ export default async function(config) {
   config.setUseGitIgnore(false); // so that manifest is detected
   
   const manifest = {};
-  const assetsGlob = './src/assets/**/*.{css,jpg,js}';
-  const assetsRegEx = /src\/assets\/.*\.(css|jpg|js)/;
+  const assetsGlob = './src/assets/**/*.{css,jpg,js,png}';
+  const assetsRegEx = /src\/assets\/.*\.(css|jpg|js,png)/;
   let changedFiles;
   config.setEventEmitterMode('sequential');
   config.on('eleventy.before', async () => {
@@ -107,10 +116,48 @@ export default async function(config) {
           );
           break;
         }
-        case '.jpg': {
-          if (file.includes('/parts/')) {
+        case '.jpg':
+        case '.png': {
+          let dir = 'imgs';
+          
+          if (file.includes('/build/')) {
+            dir += '/build';
+            
+            pendingFiles.push(
+              new Promise(async (resolve) => {
+                await createFile({
+                  content: await readFile(file),
+                  dir, ext, file,
+                });
+                resolve();
+              })
+            );
+          }
+          else if (file.includes('/diagram/')) {
+            dir += '/diagram';
+            
+            pendingFiles.push(
+              new Promise(async (resolve) => {
+                await createFile({
+                  content: await readFile(file),
+                  dir, ext, file,
+                });
+                resolve();
+              })
+            );
+            pendingFiles.push(
+              new Promise(async (resolve) => {
+                await createFile({
+                  content: await sharp(file).resize({ fit: 'inside', height: 200 }).jpeg({ quality: 90 }).toBuffer(),
+                  dir, ext, file, suffix: '-thumb',
+                });
+                resolve();
+              })
+            );
+          }
+          else if (file.includes('/parts/')) {
             const sizeOpts = { background: '#ffffff', fit: 'contain' };
-            const dir = 'imgs/parts';
+            dir += '/parts';
             
             pendingFiles.push(
               new Promise(async (resolve) => {
@@ -131,6 +178,7 @@ export default async function(config) {
               })
             );
           }
+          
           break;
         }
         case '.js': {
@@ -189,10 +237,10 @@ export default async function(config) {
   });
   
   // TODO: remove? maybe use for favicons
-  // config.addPassthroughCopy({
-  //   './src/assets/*.css': 'css',
-  //   './src/assets/*.js': 'js',
-  // });
+  config.addPassthroughCopy({
+    './src/assets/imgs/static/*': 'imgs',
+    './work-files/solar-generator-wiring-diagram.drawio': 'imgs/diagram',
+  });
   config.addWatchTarget(assetsGlob);
   
 	return baseConfig;

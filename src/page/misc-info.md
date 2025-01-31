@@ -2,7 +2,8 @@
 eleventyNavigation:
   key: Misc. Info
   order: 2
-permalink: /misc-info/
+page:
+  class: misc-info
 subTitle: Misc. Info
 ---
 

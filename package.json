@@ -2,17 +2,21 @@
   "scripts": {
     "build": "npx @11ty/eleventy",
     "preinstall": "if [ -z \"$IN_CONTAINER\" ] || ! $IN_CONTAINER; then echo \" [ERROR] Not in Docker\\n\"; rm -rf node_modules; exit 1; fi",
+    "resize:build": "npx sharp -i '.ignore/imgs/build/*' -o 'src/assets/imgs/build' -q 90 -f jpg resize 1000 1000 --fit inside",
+    "resize:diagram": "npx sharp -i '.ignore/imgs/diagram/*' -o 'src/assets/imgs/diagram' -q 90 -f jpg resize 1000 1000 --fit inside",
     "start:dev": "npx @11ty/eleventy --serve"
   },
   "devDependencies": {
     "@11ty/eleventy": "3.0.0",
     "@11ty/eleventy-navigation": "0.3.5",
     "@11ty/eleventy-plugin-inclusive-language": "1.0.3",
+    "@11ty/eleventy-plugin-syntaxhighlight": "5.0.0",
     "clean-css": "5.3.3",
     "eleventy-plugin-clean": "2.0.1",
     "esbuild": "0.24.2",
     "html-minifier-terser": "7.2.0",
     "markdown-it-decorate": "1.2.2",
-    "sharp": "0.33.5"
+    "sharp": "0.33.5",
+    "sharp-cli": "5.1.0"
   }
 }
