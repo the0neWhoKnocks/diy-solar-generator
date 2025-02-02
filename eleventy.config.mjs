@@ -16,6 +16,7 @@ import markdownItDecorate from 'markdown-it-decorate';
 import { mkdirp } from 'mkdirp';
 import { rimraf } from 'rimraf';
 import sharp from 'sharp';
+import HeadingLinkPlugin from './src/plugins/HeadingLinkPlugin.mjs';
 import ToCPlugin from './src/plugins/ToCPlugin.mjs';
 
 
@@ -57,6 +58,7 @@ export default async function(config) {
     backToTopLabel: 'Top',
     insertBackToTopAfter: 'header',
   });
+  config.addPlugin(HeadingLinkPlugin);
   
   const mdI = markdownIt({
     breaks: true,

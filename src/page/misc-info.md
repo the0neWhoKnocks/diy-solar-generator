@@ -227,9 +227,7 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
 
 ## Batteries
 
-### Wiring
-
-#### In Parallel
+### Wiring In Parallel
 
 - 12V/80A - AH (Amp Hours) are multiplied by number of batteries.
 - To ensure current is being pulled evenly across the battery array, you should hook the negative to one end and positive to the other. You can hook them both up to just one end (one battery) but it may strain that one battery.
@@ -250,7 +248,7 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
        ╰─────────────────────────────────────────────╯
 ```
 
-#### In Series
+### Wiring In Series
 
 48V/20A
 ```clike
@@ -322,8 +320,8 @@ Tinned copper is equally conductive to bare copper, but the tin coating improves
 ### Sizing
 
 <style>
-  .wire-awg-chart { font-size: 0.7em; background: #FFF; }
-  .wire-awg-chart thead { position: sticky; top: -18px; }
+  .wire-awg-chart { width: 100%; font-size: 0.9em; background: #FFF; }
+  .wire-awg-chart thead { position: sticky; top: var(--linkScrollOffset); }
   .wire-awg-chart td { text-align: center; white-space: nowrap; border-color: #000; }
   .wire-awg-chart__label { color: #000; font-weight: bold; background: #FFF; }
   .awg-12 { color: #000; background: #FED800; }

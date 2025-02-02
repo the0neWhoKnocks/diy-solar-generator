@@ -53,7 +53,7 @@ main {
 }
 
 main > article {
-  padding: 1em;
+  padding: 2em;
 }
 
 a {
@@ -220,13 +220,14 @@ header {
   padding-right: 0.75em;
   border-radius: 0.5em 0 0 0.5em;
   margin-right: -0.25em;
+  z-index: 1;
 }
 
 .page__timestamp {
   text-indent: 1.5em;
   padding-left: 0.5em;
   border-radius: 0 0.5em 0.5em 0;
-  margin-left: -1.25em;
+  margin-left: -2.25em;
 }
 .page__timestamp time {
   color: #331f6b;
