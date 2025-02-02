@@ -41,7 +41,7 @@ export default function HeadingLinkPlugin(conf, opts = {}) {
           return node;
         });
         
-        tree.match(matchHelper(idAttrPlugin.options.selector), (node) => {
+        tree.match(matchHelper(idAttrPlugin.options.selector.replace('[id],', '')), (node) => {
           return (/h[1-6]/.test(node.tag) && !node.updated)
             ? {
               tag: 'div',
