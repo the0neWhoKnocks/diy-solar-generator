@@ -94,13 +94,15 @@ export default async function(config) {
     
     async function createFile({ content, dir, ext, file, suffix = '' }) {
       const parDir = `${baseConfig.dir.output}/${dir}`;
-      const fName = `${basename(file, ext)}${suffix}`;
+      const _ext = extname(file);
+      const fName = `${basename(file, _ext)}${suffix}`;
       const fHash = await genHash(file);
-      const newName = `${fName}-${fHash}${ext}`;
+      const newExt = ext || _ext;
+      const newName = `${fName}-${fHash}${newExt}`;
       
       await mkdirp(parDir);
       await writeFile(`${parDir}/${newName}`, content);
-      manifest[`${dir}/${fName}${ext}`] = `/${dir}/${newName}`;
+      manifest[`${dir}/${fName}${newExt}`] = `/${dir}/${newName}`;
     }
     
     const pendingFiles = [];
@@ -117,7 +119,6 @@ export default async function(config) {
               await createFile({
                 content: new CleanCSS().minify([file]).styles,
                 dir: 'css',
-                ext,
                 file,
               });
               resolve();
@@ -136,7 +137,7 @@ export default async function(config) {
               new Promise(async (resolve) => {
                 await createFile({
                   content: await readFile(file),
-                  dir, ext, file,
+                  dir, file,
                 });
                 resolve();
               })
@@ -148,8 +149,8 @@ export default async function(config) {
             pendingFiles.push(
               new Promise(async (resolve) => {
                 await createFile({
-                  content: await readFile(file),
-                  dir, ext, file,
+                  content: await sharp(file).jpeg({ quality: 90 }).toBuffer(),
+                  dir, ext: '.jpg', file,
                 });
                 resolve();
               })
@@ -158,7 +159,7 @@ export default async function(config) {
               new Promise(async (resolve) => {
                 await createFile({
                   content: await sharp(file).resize({ fit: 'inside', height: 200 }).jpeg({ quality: 90 }).toBuffer(),
-                  dir, ext, file, suffix: '-thumb',
+                  dir, ext: '.jpg', file, suffix: '-thumb',
                 });
                 resolve();
               })
@@ -172,7 +173,7 @@ export default async function(config) {
               new Promise(async (resolve) => {
                 await createFile({
                   content: await sharp(file).resize(450, 450, sizeOpts).jpeg({ quality: 90 }).toBuffer(),
-                  dir, ext, file,
+                  dir, ext: '.jpg', file,
                 });
                 resolve();
               })
@@ -181,7 +182,7 @@ export default async function(config) {
               new Promise(async (resolve) => {
                 await createFile({
                   content: await sharp(file).resize(75, 75, sizeOpts).jpeg({ quality: 90 }).toBuffer(),
-                  dir, ext, file, suffix: '-thumb',
+                  dir, ext: '.jpg', file, suffix: '-thumb',
                 });
                 resolve();
               })
@@ -195,7 +196,7 @@ export default async function(config) {
             new Promise(async (resolve) => {
               await createFile({
                 content: (await esbuild.transform(await readFile(file), { minify: true })).code,
-                dir: 'js', ext, file,
+                dir: 'js', file,
               });
               resolve();
             })
