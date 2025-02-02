@@ -35,6 +35,8 @@ export default function ToCPlugin(conf, opts = {}) {
         let currList;
         let prevNdx;
         
+        if (!tree.source.includes('<toc>')) return;
+        
         tree.match(matchHelper(idAttrPlugin.options.selector.replace('[id],', '')), (node) => {
           const hNdx = +node.tag.substring(1);
           
