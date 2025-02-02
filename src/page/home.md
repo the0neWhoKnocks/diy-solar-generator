@@ -75,13 +75,13 @@ Some of the pictures don't align with the order of the below instructions. There
 1. Turn the circuit breaker to the On position, looking away from the system in case there are any sparks.
 1. The battery monitor screen should power on.
    - Press Ok button (so screen becomes active), then hold Ok for 3 seconds to enter settings). Use the Up/Down arrows to navigate to a row, Ok to start editing, Up/Down to change value, Ok to accept change and move to next number, Back to exit editing, Back again to exit settings. 
-      ```c
-         CAP: 0300.0Ah
-      Full V: 013.7 V
-      Zero V: 010.0 V
-      PowOff: 000.0 V
-       Alarm: 000.0 Ah
-       Atten: 0.000 %
+      ```clike
+         CAP: 0300.0 Ah
+      Full V:  013.7 V
+      Zero V:  010.0 V
+      PowOff:  000.0 V
+       Alarm:  000.0 Ah
+       Atten:  0.000 %
       ```
    - `CAP` is the capacity (so all 3 100AH batteries added)(100% for lithium, 50% for acid). `Full V` (aka Nominal Voltage) and `Zero V` (aka Fully Discharged Voltage) may be called out in manual, but I had to look up "voltage chart lifepo4 12.8v battery" to get [some charts](https://www.google.com/search?q=voltage+chart+lifepo4+12.8v+battery) that seemed to line up with the initial number I was seeing. `PowOff` shuts off monitor, 11v is roughly 5% charge left. `Alarm` heard it's annoying, skipping. `Atten` adjusts the numbers by this percentage which is based on battery charge cycles and AH, skipping.
    - Hold the Up arrow on the monitor for 3 seconds to set monitor at 100% (only if the batteries are fully charged).

@@ -5,7 +5,7 @@ import { basename, extname } from 'node:path';
 import { IdAttributePlugin } from '@11ty/eleventy';
 import NavigationPlugin from '@11ty/eleventy-navigation';
 import InclusiveLangPlugin from '@11ty/eleventy-plugin-inclusive-language';
-import SyntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
+import SyntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
 import CleanCSS from 'clean-css';
 import CleanPlugin from 'eleventy-plugin-clean';
 import * as esbuild from 'esbuild';
@@ -16,6 +16,7 @@ import markdownItDecorate from 'markdown-it-decorate';
 import { mkdirp } from 'mkdirp';
 import { rimraf } from 'rimraf';
 import sharp from 'sharp';
+import ToCPlugin from './src/plugins/ToCPlugin.mjs';
 
 
 const genHash = (path) => new Promise((resolve, reject) => {
@@ -42,13 +43,19 @@ export default async function(config) {
   };
   
   config.addPlugin(CleanPlugin);
-  config.addPlugin(IdAttributePlugin);
+  config.addPlugin(IdAttributePlugin, {
+    selector: '[id],h2,h3,h4,h5,h6',
+  });
   config.addPlugin(InclusiveLangPlugin);
   config.addPlugin(NavigationPlugin);
   config.addPlugin(SyntaxHighlight, {
     preAttributes: {
       'data-language': ({ language, content, options }) => language,
     },
+  });
+  config.addPlugin(ToCPlugin, {
+    backToTopLabel: 'Top',
+    insertBackToTopAfter: 'header',
   });
   
   const mdI = markdownIt({
@@ -67,7 +74,7 @@ export default async function(config) {
   
   const manifest = {};
   const assetsGlob = './src/assets/**/*.{css,jpg,js,png}';
-  const assetsRegEx = /src\/assets\/.*\.(css|jpg|js,png)/;
+  const assetsRegEx = /src\/assets\/.*\.(css|jpg|js|png)/;
   let changedFiles;
   config.setEventEmitterMode('sequential');
   config.on('eleventy.before', async () => {

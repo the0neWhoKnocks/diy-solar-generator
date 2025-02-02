@@ -7,6 +7,8 @@ page:
 subTitle: Misc. Info
 ---
 
+{% ToC %}
+
 <!-- Uninstalling:
 
 1. __

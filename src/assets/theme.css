@@ -1,34 +1,40 @@
+:root {
+  --headerHeight: 12em;
+  --headerShadowSize: 20px;
+  --linkScrollOffset: calc(var(--headerHeight) + var(--headerShadowSize));
+  
+  --toc__b2tOffset: var(--linkScrollOffset);
+  
+  /* --theme-hue: 0;
+  --accent-hue: 194;
+  
+  --text-color-richer: hsl(var(--theme-hue), 0%, 5%);
+  --text-color-normal: hsl(var(--theme-hue), 0%, 13%);
+  --text-color-softer: hsl(var(--theme-hue), 0%, 33%);
+  
+  --accent-color: hsl(var(--accent-hue), 86%, 57%);
+  --accent-color-hover: hsl(var(--accent-hue), 76%, 49%);
+  
+  --border-color: hsl(var(--theme-hue), 0%, 73%);
+  --border-color-softer: hsl(var(--theme-hue), 0%, 82%);
+  
+  --background-color: white;
+  --background-color-softer: hsl(var(--theme-hue), 0%, 95%);
+  --code-background: hsl(var(--theme-hue), 0%, 95%);
+  
+  --button-primary-color: white; */
+}
+
 *, *::after, *::before {
   box-sizing: border-box;
 }
 
 html, body {
-  width: 100%;
-  height: 100%;
   padding: 0;
   margin: 0;
 }
 
 body {
-  /* --theme-hue: 0;
-  --accent-hue: 194;
-
-  --text-color-richer: hsl(var(--theme-hue), 0%, 5%);
-  --text-color-normal: hsl(var(--theme-hue), 0%, 13%);
-  --text-color-softer: hsl(var(--theme-hue), 0%, 33%);
-
-  --accent-color: hsl(var(--accent-hue), 86%, 57%);
-  --accent-color-hover: hsl(var(--accent-hue), 76%, 49%);
-
-  --border-color: hsl(var(--theme-hue), 0%, 73%);
-  --border-color-softer: hsl(var(--theme-hue), 0%, 82%);
-
-  --background-color: white;
-  --background-color-softer: hsl(var(--theme-hue), 0%, 95%);
-  --code-background: hsl(var(--theme-hue), 0%, 95%);
-
-  --button-primary-color: white; */
-  
   color: #333;
   font-family: sans-serif;
   font-size: 16px;
@@ -40,7 +46,6 @@ body {
 
 main {
   width: 800px;
-  overflow: hidden;
   background: #ccc;
   box-shadow: 0 0px 50px 8px rgb(0 0 0);
   display: flex;
@@ -49,7 +54,6 @@ main {
 
 main > article {
   padding: 1em;
-  padding-bottom: 2em; /* since `scrollbar-gutter` adds extra padding, this evens out the bottom */
 }
 
 a {
@@ -60,10 +64,6 @@ img {
   display: block;
 }
 
-article {
-  overflow: auto;
-  scrollbar-gutter: stable both-edges;
-}
 article ol {
   padding-left: 1.75em;
 }
@@ -72,6 +72,10 @@ article ul {
 }
 article li {
   margin: 1em 0;
+}
+
+a, h1, h2, h3, h4, h5, h6 {
+  scroll-margin-top: var(--linkScrollOffset); /* when an id link scrolls to an element, this gives it some top spacing */
 }
 
 table {
@@ -131,13 +135,15 @@ details[open] summary::after {
 }
 
 header {
-  height: 12em;
+  height: var(--headerHeight);
   overflow: hidden;
   background-image: url('/imgs/banner.jpg');
   background-size: cover;
   background-position: 0px -30px;
-  box-shadow: 0 -1px 20px 11px rgb(0 0 0 / 75%);
-  position: relative;
+  box-shadow: 0 -1px var(--headerShadowSize) 11px rgb(0 0 0 / 75%);
+  position: sticky;
+  top: 0;
+  z-index: 1;
   flex-shrink: 0;
 }
 .page__title {
@@ -198,17 +204,29 @@ header {
   background: #000;
 }
 
+.toc-b2t__link,
 .page__timestamp {
   color: #eee;
-  text-indent: 1.5em;
-  padding: 0.25em 0.25em 0.25em 0.5em;
+  padding: 0.25em;
   border: solid 1px #222;
   border-top-color: #e6ddff;
   border-radius: 0 0.5em 0.5em 0;
-  margin-left: -2em;
   background: #331f6b;
   display: inline-block;
   box-shadow: 0 3px 6px 1px rgb(0 0 0 / 50%);
+}
+
+.toc-b2t__link {
+  padding-right: 0.75em;
+  border-radius: 0.5em 0 0 0.5em;
+  margin-right: -0.25em;
+}
+
+.page__timestamp {
+  text-indent: 1.5em;
+  padding-left: 0.5em;
+  border-radius: 0 0.5em 0.5em 0;
+  margin-left: -1.25em;
 }
 .page__timestamp time {
   color: #331f6b;
