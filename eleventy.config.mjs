@@ -30,7 +30,7 @@ const genHash = (path) => new Promise((resolve, reject) => {
 });
 
 export default async function(config) {
-  await rimraf('dist/{css,js}/*', { glob: true });
+  await rimraf('dist/{css,imgs,js}/*', { glob: true });
   
   const baseConfig = {
     dir: {
