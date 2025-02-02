@@ -15,7 +15,6 @@
   left: -3.25ch;
   opacity: 0;
 }
-.h-link a:hover,
-.h-link :where(h1, h2, h3, h4, h5, h6):hover + a {
+.h-link:hover a {
   opacity: 1;
 }

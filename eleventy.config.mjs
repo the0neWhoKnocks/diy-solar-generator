@@ -13,6 +13,7 @@ import { glob } from 'glob';
 import htmlMin from 'html-minifier-terser';
 import markdownIt from 'markdown-it';
 import markdownItDecorate from 'markdown-it-decorate';
+import { container as markdownItContainer } from '@mdit/plugin-container';
 import { mkdirp } from 'mkdirp';
 import { rimraf } from 'rimraf';
 import sharp from 'sharp';
@@ -61,11 +62,35 @@ export default async function(config) {
   config.addPlugin(HeadingLinkPlugin);
   
   const mdI = markdownIt({
-    breaks: true,
+    breaks: false,
     html: true,
 		linkify: true,
   });
   mdI.use(markdownItDecorate);
+  mdI.use(markdownItContainer, {
+    name: '_',
+    openRender: (tokens, index, _options) => {
+      const attrs = tokens[index].info.trim().slice(1).trim().split(' ').reduce((obj, i) => {
+        if (i.startsWith('.')) {
+          if (!obj?.class) obj.class = [];
+          obj.class.push(...i.split('.'));
+        }
+        if (i.startsWith('#')) {
+          if (!obj?.id) obj.id = [];
+          obj.id.push(i.replace(/^\#/, ''));
+        }
+        
+        return obj;
+      }, {});
+      
+      return `<div ${(attrs.class) ? `class="${attrs.class.join(' ')}"` : ''} ${(attrs.id) ? `id="${attrs.id.join(' ')}"` : ''}>`;
+    }
+  });
+  mdI.linkify.set({
+    fuzzyEmail: false,
+    fuzzyIP: false,
+    fuzzyLink: false,
+  });
   config.setLibrary('md', mdI);
   
   config.setServerOptions({
@@ -130,21 +155,11 @@ export default async function(config) {
         case '.png': {
           let dir = 'imgs';
           
-          if (file.includes('/build/')) {
-            dir += '/build';
-            
-            pendingFiles.push(
-              new Promise(async (resolve) => {
-                await createFile({
-                  content: await readFile(file),
-                  dir, file,
-                });
-                resolve();
-              })
-            );
-          }
-          else if (file.includes('/diagram/')) {
-            dir += '/diagram';
+          if (
+            file.includes('/build/')
+            || file.includes('/diagram/')
+          ) {
+            dir += file.includes('/build/') ? '/build' : '/diagram';
             
             pendingFiles.push(
               new Promise(async (resolve) => {
@@ -158,7 +173,7 @@ export default async function(config) {
             pendingFiles.push(
               new Promise(async (resolve) => {
                 await createFile({
-                  content: await sharp(file).resize({ fit: 'inside', height: 200 }).jpeg({ quality: 90 }).toBuffer(),
+                  content: await sharp(file).resize(250, 250, { fit: 'inside' }).jpeg({ quality: 90 }).toBuffer(),
                   dir, ext: '.jpg', file, suffix: '-thumb',
                 });
                 resolve();
@@ -237,7 +252,7 @@ export default async function(config) {
       const ext = '.jpg';
       
       return [
-        `<a href="${parseURL(`${lrgURL}${ext}`)}" target="_blank">`,
+        `<a class="img-popup" href="${parseURL(`${lrgURL}${ext}`)}" target="_blank">`,
         `  <img src="${parseURL(`${lrgURL}-thumb${ext}`)}"${altAttr} />`,
         '</a>',
       ].join('');
