@@ -11,8 +11,11 @@ export default function ToCPlugin(conf, opts = {}) {
   };
   let pluginOpts = { ...defaultOpts, ...opts };
   
-  conf.addShortcode('ToC', (userOpts = {}) => {
+  conf.addShortcode('ToC', function (userOpts = {}) {
     pluginOpts = { ...pluginOpts, ...userOpts };
+    
+    this.page.hasToC = true;
+    
     return `<toc></toc>`;
   });
   

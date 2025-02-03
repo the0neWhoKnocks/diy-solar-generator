@@ -10,8 +10,8 @@
     <meta name="dcterms.modified" content="{{ page.pubDate }}">
     
     <link rel="stylesheet" href="{{ manifest['css/prism-tomorrow.css'] }}">
-    <link rel="stylesheet" href="{{ manifest['css/toc.css'] }}">
-    <link rel="stylesheet" href="{{ manifest['css/hl.css'] }}">
+    {% if page.hasToC %}<link rel="stylesheet" href="{{ manifest['css/toc.css'] }}">{% endif %}
+    {% if page.hasLinkedHeadings %}<link rel="stylesheet" href="{{ manifest['css/hl.css'] }}">{% endif %}
     <link rel="stylesheet" href="{{ manifest['css/theme.css'] }}">
   </head>
   <body>
@@ -43,7 +43,6 @@
         {{ content }}
       </article>
     </main>
-    
-    <script src="{{ manifest['js/toc.js'] }}"></script>
+    {% if page.hasToC %}<script src="{{ manifest['js/toc.js'] }}"></script>{% endif %}
   </body>
 </html>

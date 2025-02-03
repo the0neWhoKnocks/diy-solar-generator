@@ -6,6 +6,13 @@ export default function HeadingLinkPlugin(conf, opts = {}) {
   const defaultOpts = {};
   let pluginOpts = { ...defaultOpts, ...opts };
   
+  conf.addPreprocessor('hl-heading-check', '*', function (data, content) {
+    // for now only checking against md files
+    if (data.page.templateSyntax.includes('md')) {
+      if ( /^#{1,6} \w+/gm.test(content) ) data.page.hasLinkedHeadings = true;
+    }
+	});
+  
   conf.htmlTransformer.addPosthtmlPlugin(
     'html',
     function HeadingLinkPostHTMLPlugin() {
