@@ -169,6 +169,18 @@ blockquote p:last-of-type {
   margin-bottom: unset;
 }
 
+@font-face {
+  font-family: FiraCode;
+  src: url(/css/fonts/FiraCode-VariableFont.ttf); /* from Google Fonts */
+}
+:is(pre, code)[class*=language-] {
+  font-family: FiraCode;
+}
+.drawing pre {
+  display: flex;
+  justify-content: center;
+}
+
 :not(pre) > code {
   font-family: monospace;
   font-size: calc(1em - 2px);

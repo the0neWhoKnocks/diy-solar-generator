@@ -165,6 +165,7 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
 - **Pros**: Simpler, cheaper, easier to manage. Solar panels >= 100W have bypass diodes so if a panel is shaded it just goes into bypass, which means the array can continue producing and (for the most part) only the shaded panel's output drops off. 
 - **Cons**: Like old christmas lights, if one panel is in shade or malfunctioning, none of the panels produce power.
 
+:::_ .drawing
 ```clike
 ╔═══════════════════════════╗
 ║ ┌─────┐  ┌─────┐  ┌─────┐ ║
@@ -177,6 +178,7 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
   ╰────────────────────────────┅┅─── +│          │
                                       └──────────┘
 ```
+:::
 
 ### Wiring in Parallel
 
@@ -184,6 +186,7 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
 - **Pros**: Each panel generates power on it's own and isn't effected if one panel is shaded or malfunctioning.
 - **Cons**: Requires branch connectors, inline fuses, wires at and after branch need to be thicker to account for extra current. Is more costly.
 
+:::_ .drawing
 ```clike
 ╔═════════╦═════════╦═════════╗
 ║ ┌─────┐ ║ ┌─────┐ ║ ┌─────┐ ║
@@ -201,12 +204,14 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
                               │
                            [fuse] (prevent back-power to panel)
 ```
+:::
 
 ### Wiring in both Series and Parallel
 
 - Panels should be even numbered, and not have mis-matching outputs.
 - Bring in more power, but allow for the Inverter to accept the extra load.
 
+:::_ .drawing
 ```clike
 ╔══════════════════╦══════════════════╗
 ║ ┌─────┐  ┌─────┐ ║ ┌─────┐  ┌─────┐ ║
@@ -222,6 +227,7 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
                                      │
                            [fuse] (prevent back-power to panel)
 ```
+:::
 
 ---
 
@@ -233,8 +239,8 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
 - To ensure current is being pulled evenly across the battery array, you should hook the negative to one end and positive to the other. You can hook them both up to just one end (one battery) but it may strain that one battery.
 - You can use one battery monitor for batteries connected in parallel because when wired this way, all the batteries act as a single unit with the same voltage, so monitoring one battery effectively monitors the entire parallel bank.
 
+:::_ .drawing
 ```clike
-          
         ╭───────────╮╭───────────╮╭────────────╮
 ┌─────┬─│┐   ┌─────┬││┐   ┌─────┬││┐   ┌─────┬─│┐
 │    +│ ╽│   │    +│╽╽│   │    +│╽╽│   │    +│ ╽│ ╾──╮
@@ -247,23 +253,24 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
        ╿                                             │
        ╰─────────────────────────────────────────────╯
 ```
+:::
 
 ### Wiring In Series
 
 48V/20A
+:::_ .drawing
 ```clike
-                     ╭───────────────╮
-        ╭────────────│──╮         ╭───────────────╮
-┌─────┬─│┐   ┌─────┬─│┐ │ ┌─────┬─│┐ │ ┌─────┬──┐ │
-│    +│ ╽│   │    +│ ╽│ │ │    +│ ╽│ │ │    +│  │ │ ╾──╮
-│     └──┤   │     └──┤ │ │     └──┤ │ │     └──┤ │    │
-│        │   │        │ │ │        │ │ │        │ │    │
-│     ┌──┤   │     ┌──┤ │ │     ┌──┤ │ │     ┌──┤ │    ├───────
-│    -│  │   │    -│ ╾──╯ │    -│ ╾──╯ │    -│ ╾──╯    │ in/out
-└─────┴──┘   └─────┴──┘   └─────┴──┘   └─────┴──┘      │
-        ╿                                              │
-        ╰──────────────────────────────────────────────╯
+┌─────┬──┐   ┌─────┬──┐   ┌─────┬──┐   ┌─────┬──┐  
+│    +│ ╾──╮ │    +│ ╾──╮ │    +│ ╾──╮ │    +│  │ ╾──╮
+│     └──┤ │ │     └──┤ │ │     └──┤ │ │     └──┤    │
+│        │ │ │        │ │ │        │ │ │        │    │
+│     ┌──┤ │ │     ┌──┤ │ │     ┌──┤ │ │     ┌──┤    ├───────
+│    -│  │ │ │    -│ ╾─╮│ │    -│ ╾─╮│ │    -│ ╾─╮   │ in/out
+└─────┴──┘ │ └─────┴──┘││ └─────┴──┘││ └─────┴──┘│   │
+        ╿  ╰───────────╯╰───────────╯╰───────────╯   │
+        ╰────────────────────────────────────────────╯
 ```
+:::
 
 ---
 
@@ -487,17 +494,19 @@ In other words, a receptacle is a type of outlet. A receptacle is a device that 
 | NEMA 5-20R (T-slot receptacle) | Standard 20A 120 volt household outlet, required by code in some bathrooms and behind some refrigerators. |
 | NEMA 5-15R | Standard 15A 240 volt household outlet, found in homes and motels for running in-wall Air Conditioners, it's the smaller brother to the NEMA 5-20R. |
 
-```d
-    ╭─╮             ┆     ╭─╮
-    │ │        ╭─╮  ┆     │ │        ╭─╮
-╭───╯ │        │ │  ┆     │ │        │ │
-╰───╮ │        │ │  ┆     │ │        │ │
-    │ │        ╰─╯  ┆     │ │        ╰─╯
-    ╰─╯             ┆     ╰─╯
-         ╭──╮       ┆          ╭──╮
-[5-20R]  │  │       ┆ [5-15R]  │  │
-         └──┘       ┆          └──┘
+:::_ .drawing
+```clike
+    ╭─╮                 ┆         ╭─╮
+    │ │        ╭─╮      ┆         │ │        ╭─╮
+╭───╯ │        │ │      ┆         │ │        │ │
+╰───╮ │        │ │      ┆         │ │        │ │
+    │ │        ╰─╯      ┆         │ │        ╰─╯
+    ╰─╯                 ┆         ╰─╯
+         ╭──╮           ┆              ╭──╮
+[5-20R]  │  │           ┆     [5-15R]  │  │
+         └──┘           ┆              └──┘
 ```
+:::
 
 ---
 

@@ -261,8 +261,8 @@ export default async function(config) {
     return '<span>[ERROR: Missing manifest]</span>';
   });
   
-  // TODO: remove? maybe use for favicons
   config.addPassthroughCopy({
+    './src/assets/fonts/*': 'css/fonts',
     './src/assets/imgs/static/*': 'imgs',
     './work-files/solar-generator-wiring-diagram.drawio': 'imgs/diagram',
   });
