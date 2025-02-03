@@ -125,17 +125,19 @@ details summary {
   cursor: pointer;
 }
 details summary::after {
-  content: '⊕';
-  font-size: 2em;
+  content: '🞃';
+  font-size: 1em;
   font-family: monospace;
-  line-height: 0.5em;
+  line-height: 1em;
+  display: flex;
+  align-items: center;
 }
 details[open] summary {
   border-bottom: 1px solid #000;
   margin-bottom: 0.5em;
 }
 details[open] summary::after {
-  content: '⊟';
+  content: '🞁';
 }
 
 blockquote {
