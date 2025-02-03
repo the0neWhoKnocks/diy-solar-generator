@@ -46,6 +46,7 @@ body {
 
 main {
   width: 800px;
+  min-height: 100vh;
   background: #ccc;
   box-shadow: 0 0px 50px 8px rgb(0 0 0);
   display: flex;
@@ -89,7 +90,10 @@ table thead th {
   color: #eee;
   background: #000;
 }
-table tbody td {
+table tbody {
+  background: rgb(255 255 255 / 50%);
+}
+table :where(th, td) {
   padding: 0.5em;
 }
 
@@ -132,6 +136,37 @@ details[open] summary {
 }
 details[open] summary::after {
   content: '⊟';
+}
+
+blockquote {
+  padding: 1em 2.75em;
+  border: solid 2px #666;
+  border-left-width: 1em;
+  margin: unset;
+  background: rgb(255 255 255 / 50%);
+  position: relative;
+}
+blockquote::before,
+blockquote::after {
+  color: #ccc;
+  font-size: 7em;
+  position: absolute;
+}
+blockquote::before {
+  content: open-quote;
+  top: -15px;
+  left: 2px;
+}
+blockquote::after {
+  content: close-quote;
+  bottom: -76px;
+  right: 0px;
+}
+blockquote p:first-of-type {
+  margin-top: unset;
+}
+blockquote p:last-of-type {
+  margin-bottom: unset;
 }
 
 :not(pre) > code {
@@ -213,42 +248,38 @@ header {
   background: #000;
 }
 
-.toc-b2t__link,
-.page__timestamp {
+.toc-b2t__link {
   color: #eee;
   padding: 0.25em;
-  border-radius: 0 0.5em 0.5em 0;
-  background: #331f6b;
-  display: inline-block;
-}
-
-.toc-b2t__link {
   padding-right: 0.75em;
   border: solid 1px #222;
   border-top-color: #e6ddff;
   border-radius: 0.5em 0 0 0.5em;
   margin-right: -0.25em;
+  background: #331f6b;
   box-shadow: 0 3px 6px 1px rgb(0 0 0 / 50%);
   z-index: 1;
 }
 
 .page__timestamp {
-  text-indent: 1.5em;
-  padding-left: 0.5em;
-  border-radius: 0 0.5em 0.5em 0;
-  margin-left: -2em;
+  color: #eee;
+  padding: 0.25em 0.65em;
+  border-radius: 0.5em;
+  margin: 0 -0.5em;
+  background: #333;
 }
 .page__timestamp time {
-  color: #331f6b;
+  color: #dfdfdf;
   text-indent: 0;
-  padding: 0.1em 0.5em;
-  border: solid 1px;
-  border-bottom-color: #fff;
+  padding: .3em .5em 0.15em;
+  border: solid 1px #6d6d6d;
+  border-bottom-color: #cdcdcd;
   border-top-color: #000;
-  border-radius: 0 0.25em 0.25em 0;
-  background: #efe5d2;
-  background-image: linear-gradient(180deg, #564b8d7a, transparent 131%);
+  border-radius: 0 .25em .25em 0;
+  background: #858585;
+  background-image: linear-gradient(180deg, #000000 0, 12%, transparent);
   display: inline-block;
+  text-shadow: 0px 1px 3px black;
 }
 
 .pt-table .optional {

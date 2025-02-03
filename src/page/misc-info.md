@@ -71,7 +71,7 @@ An electric current that flows consistently in one single direction. The intensi
 > - **AC**: The current periodically changes direction, flowing back and forth.
 > - **DC**: The current flows consistently in one direction.
 
-**Examples of household appliances that convert AC to DC**
+**What are examples of household appliances that convert AC to DC?**
 > Most phone chargers, laptop chargers, LED light bulbs with built-in drivers, computer power supplies, televisions, microwaves, and any device with a "power brick" that plugs into a wall outlet as they all need to convert the AC from the wall to a stable DC to operate properly.
 
 **Since appliances convert AC to DC, why can't I just plug into DC?**
@@ -140,18 +140,18 @@ Amps * 1.25 = Size
 To determine the fuse size coming from the battery to the inverter, multiply the maximum current the inverter is rated for by `1.25`.
 
 1. Get the max current for the inverter
-  ```clike
-  MaxCurrent = Watts / Volts / Efficiency
-               2000W /  12V  / 85%
-               2000  /  12   / 0.85 = 196
-  ```
+    ```clike
+    MaxCurrent = Watts / Volts / Efficiency
+                  2000W /  12V  / 85%
+                  2000  /  12   / 0.85 = 196
+    ```
 1. Get the fuse/breaker size. The buffer size of `1.25` comes from the national electric code and because running fuses and breakers _**at**_ their rated current for extended periods will eventually cause them to blow or trip.
-  ```clike
-  SafetyBuffer = 1.25
-  MaxCurrent * SafetyBuffer = FuseSize
-  
-  196 * 1.25 = 245 // Get a 250A ANL fuse/fuse block/breaker
-  ```
+    ```clike
+    SafetyBuffer = 1.25
+    MaxCurrent * SafetyBuffer = FuseSize
+    
+    196 * 1.25 = 245 // Get a 250A ANL fuse/fuse block/breaker
+    ```
 
 In the case where you end up with a fuse amperage that's difficult to find, go with a fuse that's lower than the determined size. Make sure that the fuse block and breaker are rated at or above the determined value though - that way if the fuse blows, it'll be the only thing that has to get replaced.
 
@@ -337,14 +337,14 @@ Tinned copper is equally conductive to bare copper, but the tin coating improves
 <table class="wire-awg-chart">
   <thead>
     <tr>
-      <td class="wire-awg-chart__label"></td>
-      <td class="wire-awg-chart__label">0-4 ft</td>
-      <td class="wire-awg-chart__label">4-7 ft</td>
-      <td class="wire-awg-chart__label">7-10 ft</td>
-      <td class="wire-awg-chart__label">10-13 ft</td>
-      <td class="wire-awg-chart__label">13-16 ft</td>
-      <td class="wire-awg-chart__label">16-19 ft</td>
-      <td class="wire-awg-chart__label">19-22 ft</td>
+      <th class="wire-awg-chart__label"></th>
+      <th class="wire-awg-chart__label">0-4 ft</th>
+      <th class="wire-awg-chart__label">4-7 ft</th>
+      <th class="wire-awg-chart__label">7-10 ft</th>
+      <th class="wire-awg-chart__label">10-13 ft</th>
+      <th class="wire-awg-chart__label">13-16 ft</th>
+      <th class="wire-awg-chart__label">16-19 ft</th>
+      <th class="wire-awg-chart__label">19-22 ft</th>
     <tr>
   </thead>
   <tbody>
