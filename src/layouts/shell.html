@@ -9,9 +9,9 @@
     <link rel="schema.dcterms" href="http://purl.org/dc/terms/">
     <meta name="dcterms.modified" content="{{ page.pubDate }}">
     
-    <link rel="stylesheet" href="{{ manifest['css/prism-tomorrow.css'] }}">
-    {% if page.hasToC %}<link rel="stylesheet" href="{{ manifest['css/toc.css'] }}">{% endif %}
-    {% if page.hasLinkedHeadings %}<link rel="stylesheet" href="{{ manifest['css/hl.css'] }}">{% endif %}
+    {%- for file in page.pluginDeps.css -%}
+      <link rel="stylesheet" href="{{ manifest[file] }}">
+    {%- endfor -%}
     <link rel="stylesheet" href="{{ manifest['css/theme.css'] }}">
   </head>
   <body>
@@ -43,6 +43,8 @@
         {{ content }}
       </article>
     </main>
-    {% if page.hasToC %}<script src="{{ manifest['js/toc.js'] }}"></script>{% endif %}
+    {%- for file in page.pluginDeps.js -%}
+      <script src="{{ manifest[file] }}"></script>
+    {%- endfor -%}
   </body>
 </html>

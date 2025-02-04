@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
-import { createReadStream } from 'node:fs';
-import { readFile, writeFile } from 'node:fs/promises';
+import { constants as fsC, createReadStream } from 'node:fs';
+import { access, readFile, stat, writeFile } from 'node:fs/promises';
 import { basename, extname } from 'node:path';
 import { IdAttributePlugin } from '@11ty/eleventy';
 import NavigationPlugin from '@11ty/eleventy-navigation';
@@ -21,6 +21,8 @@ import HeadingLinkPlugin from './src/plugins/HeadingLinkPlugin.mjs';
 import ToCPlugin from './src/plugins/ToCPlugin.mjs';
 
 
+const REPO_ROOT = process.cwd();
+const exists = (fp) => access(fp, fsC.F_OK);
 const genHash = (path) => new Promise((resolve, reject) => {
  const hash = createHash('sha256');
  const rs = createReadStream(path);
@@ -44,6 +46,56 @@ export default async function(config) {
     },
   };
   
+  const pluginDeps = {
+    async addDep({ page, type, val }) {
+      if (!val || typeof val !== 'string' && !Array.isArray(val)) {
+        throw new Error('Invalid type provided while adding plugin dependency');
+      }
+      
+      const files = (typeof val === 'string') ? [val] : val;
+      const _page = (!page)
+        ? this.shared // for shared items that won't have a specific page
+        : page;
+      
+      if (!_page.pluginDeps) _page.pluginDeps = {};
+      
+      if (page && this.shared.pluginDeps) {
+        Object.keys(this.shared.pluginDeps).forEach((type) => {
+          if (!_page.pluginDeps[type]) {
+            _page.pluginDeps[type] = [...this.shared.pluginDeps[type]];
+          }
+        });
+      }
+      
+      for (const file of files) {
+        const url = `${type}/${file}`
+        if (_page.pluginDeps[type]?.includes(url)) continue;
+        
+        if (!_page.pluginDeps[type]) _page.pluginDeps[type] = [];
+        
+        const fp = `${REPO_ROOT}/src/assets/${type}/${file}`;
+        try { await exists(fp); }
+        catch (err) {
+          throw new Error(`The ${type.toUpperCase()} file you're trying to add as a plugin dependency doesn't exist: "${fp}"`);
+        }
+        
+        _page.pluginDeps[type].push(url);
+      }
+    },
+    
+    async addCSS(val, page) {
+      return await this.addDep({ page, type: 'css', val });
+    },
+    
+    async addJS(val, page) {
+      return await this.addDep({ page, type: 'js', val });
+    },
+    
+    shared: {},
+  };
+  config.pluginDeps = pluginDeps;
+  config.addGlobalData('pluginDeps', pluginDeps);
+  
   config.addPlugin(CleanPlugin);
   config.addPlugin(IdAttributePlugin, {
     selector: '[id],h2,h3,h4,h5,h6',
@@ -55,6 +107,7 @@ export default async function(config) {
       'data-language': ({ language, content, options }) => language,
     },
   });
+  await pluginDeps.addCSS('prism-tomorrow.css'); // for the `SyntaxHighlight` plugin
   config.addPlugin(ToCPlugin, {
     backToTopLabel: 'Top',
     insertBackToTopAfter: 'header',

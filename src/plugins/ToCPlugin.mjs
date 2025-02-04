@@ -11,10 +11,11 @@ export default function ToCPlugin(conf, opts = {}) {
   };
   let pluginOpts = { ...defaultOpts, ...opts };
   
-  conf.addShortcode('ToC', function (userOpts = {}) {
+  conf.addShortcode('ToC', async function (userOpts = {}) {
     pluginOpts = { ...pluginOpts, ...userOpts };
     
-    this.page.hasToC = true;
+    await conf.pluginDeps.addCSS('toc.css', this.page);
+    await conf.pluginDeps.addJS('toc.js', this.page);
     
     return `<toc></toc>`;
   });
