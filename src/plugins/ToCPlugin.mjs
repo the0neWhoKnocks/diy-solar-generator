@@ -8,6 +8,7 @@ export default function ToCPlugin(conf, opts = {}) {
     backToTopLabel: 'Back to Top',
     insertBackToTopAfter: undefined,
     label: 'Table of Contents',
+    scrollSelector: undefined,
   };
   let pluginOpts = { ...defaultOpts, ...opts };
   
@@ -92,12 +93,16 @@ export default function ToCPlugin(conf, opts = {}) {
           let added = false;
           tree.match(matchHelper(pluginOpts.insertBackToTopAfter), (node) => {
             if (!added) {
+              const sSData = (pluginOpts.scrollSelector)
+                ? ` data-scroll-selector="${pluginOpts.scrollSelector}"`
+                : '';
               added = true;
+              
               return {
                 tag: false,
                 content: [
                   node,
-                  `<div class="toc-b2t"><a class="toc-b2t__link is--hidden" href="#toc-top">${pluginOpts.backToTopIcon}${pluginOpts.backToTopLabel}</a></div>`
+                  `<div class="toc-b2t"><a class="toc-b2t__link is--hidden" href="#toc-top"${sSData}>${pluginOpts.backToTopIcon}${pluginOpts.backToTopLabel}</a></div>`
                 ],
               };
             }

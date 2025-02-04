@@ -111,6 +111,7 @@ export default async function(config) {
   config.addPlugin(ToCPlugin, {
     backToTopLabel: 'Top',
     insertBackToTopAfter: 'header',
+    scrollSelector: '.wrapper',
   });
   config.addPlugin(HeadingLinkPlugin);
   
