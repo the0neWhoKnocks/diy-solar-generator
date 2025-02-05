@@ -290,7 +290,7 @@ When specing out a controller, there are commonly two numbers called out, someth
 - `100` is the maximum input voltage. If your panels deliver more than that, it'll fry the controller. You can determine how much the panel could deliver via the `Voc` (Open circuit voltage), which should be listed on the panel or it's included pamphlet. So if a panel states something like `28V+5%`, `28` is the max, and pad it out by 20%, so on a cold clear day the panel may output `34V` (not common, but could happen).
 - `50` is the maximum output amperage. If you exceed it, the controller will likely get stuck in a reset/reboot loop. So if the battery/inverter is outputting 13V and you have panels in series bringing in 600V, you'd divide `600V` by `13V` which would be `46`. So with fluctuations in solar output, that `46` could spike above the allowed `50`, causing a reset.
 
-Generally, a larger battery charge voltage equates to a cheaper charge controller. Not "cheaper" as in bad quality, it just costs less to make.
+Generally, a larger battery charge voltage equates to a cheaper charge controller. Not "cheaper" as in bad quality, it simply costs less to make.
 
 ### Wiring a Controller
 
