@@ -17,6 +17,7 @@ import { container as markdownItContainer } from '@mdit/plugin-container';
 import { mkdirp } from 'mkdirp';
 import { rimraf } from 'rimraf';
 import sharp from 'sharp';
+import DrawerPlugin from './src/plugins/DrawerPlugin.mjs';
 import HeadingLinkPlugin from './src/plugins/HeadingLinkPlugin.mjs';
 import ImgPopupPlugin from './src/plugins/ImgPopupPlugin.mjs';
 import ToCPlugin from './src/plugins/ToCPlugin.mjs';
@@ -49,11 +50,15 @@ export default async function(config) {
   
   const pluginDeps = {
     async addDep({ page, type, val }) {
-      if (!val || typeof val !== 'string' && !Array.isArray(val)) {
+      if (
+        !val
+        || type !== 'svg' && typeof val !== 'string' && !Array.isArray(val)
+        || type === 'svg' && typeof val !== 'object'
+      ) {
         throw new Error('Invalid type provided while adding plugin dependency');
       }
       
-      const files = (typeof val === 'string') ? [val] : val;
+      const assets = (!Array.isArray(val)) ? [val] : val;
       const _page = (!page)
         ? this.shared // for shared items that won't have a specific page
         : page;
@@ -68,19 +73,25 @@ export default async function(config) {
         });
       }
       
-      for (const file of files) {
-        const url = `${type}/${file}`
-        if (_page.pluginDeps[type]?.includes(url)) continue;
-        
+      for (const asset of assets) {
         if (!_page.pluginDeps[type]) _page.pluginDeps[type] = [];
         
-        const fp = `${REPO_ROOT}/src/assets/${type}/${file}`;
-        try { await exists(fp); }
-        catch (err) {
-          throw new Error(`The ${type.toUpperCase()} file you're trying to add as a plugin dependency doesn't exist: "${fp}"`);
+        if (type === 'svg') {
+          if (_page.pluginDeps[type].find(({ id }) => id === asset.id)) continue;
+          _page.pluginDeps[type].push(asset);
         }
-        
-        _page.pluginDeps[type].push(url);
+        else {
+          const url = `${type}/${asset}`
+          if (_page.pluginDeps[type].includes(url)) continue;
+          
+          const fp = `${REPO_ROOT}/src/assets/${type}/${asset}`;
+          try { await exists(fp); }
+          catch (err) {
+            throw new Error(`The ${type.toUpperCase()} file you're trying to add as a plugin dependency doesn't exist: "${fp}"`);
+          }
+          
+          _page.pluginDeps[type].push(url);
+        }
       }
     },
     
@@ -90,6 +101,10 @@ export default async function(config) {
     
     async addJS(val, page) {
       return await this.addDep({ page, type: 'js', val });
+    },
+    
+    async addSVG(val, page) {
+      return await this.addDep({ page, type: 'svg', val });
     },
     
     shared: {},
@@ -120,6 +135,7 @@ export default async function(config) {
   });
   config.addPlugin(HeadingLinkPlugin);
   config.addPlugin(ImgPopupPlugin);
+  config.addPlugin(DrawerPlugin);
   
   const mdI = markdownIt({
     breaks: false,

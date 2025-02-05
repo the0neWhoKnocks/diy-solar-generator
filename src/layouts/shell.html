@@ -17,6 +17,16 @@
     <link rel="stylesheet" href="{{ manifest['css/theme.css'] }}">
   </head>
   <body>
+    {% if page.pluginDeps.svg %}
+      <style id="pluginIconStyles">.plugin-icon { width: 1em; height: 1em; }</style>
+      <svg id="pluginIcons" width="0" height="0" style="position:absolute">  
+        {%- for svg in page.pluginDeps.svg -%}
+          <symbol id="{{ svg.id }}" viewBox="{{ svg.viewBox }}" xmlns="http://www.w3.org/2000/svg">
+            {{ svg.content }}
+          </symbol>
+        {%- endfor -%}
+      </svg>
+    {% endif %}
     <div class="wrapper">
       <main class="page">
         <header>

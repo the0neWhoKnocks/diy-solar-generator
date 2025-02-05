@@ -26,6 +26,10 @@
   font-family: FiraCode;
   src: url(/css/fonts/FiraCode-VariableFont.ttf); /* from Google Fonts */
 }
+@font-face {
+  font-family: Karla;
+  src: url(/css/fonts/Karla-VariableFont.ttf); /* from Google Fonts */
+}
 
 *, *::after, *::before {
   box-sizing: border-box;
@@ -38,7 +42,7 @@ html, body {
 
 body {
   color: #333;
-  font-family: sans-serif;
+  font-family: Karla;
   font-size: 16px;
   background:
     linear-gradient(45deg,var(--c)) calc(var(--s)/-2) var(--_s),
@@ -142,50 +146,6 @@ table :where(th, td) {
   padding: 0.5em;
 }
 
-details {
-  overflow: hidden;
-  outline: var(--textBarOutline);
-  border-radius: 4px;
-  padding: 0.5em 0.5em 0;
-  background: #333;
-  box-shadow: var(--textBarBoxShadow);
-}
-details[open] {
-  padding: 0.5em;
-}
-details:not(:first-of-type) {
-  margin-top: 1em;
-}
-details summary {
-  color: var(--textBarColor);
-  font-weight: bold;
-  text-shadow: var(--textBarTextShadow);
-  padding: 0.5em;
-  margin: -0.5em -0.5em 0;
-  list-style: none;
-  background-color: var(--textBarBGColor);
-  background-image: var(--textBarGrad);
-  box-shadow: 0 10px 20px 10px rgb(0 0 0 / 75%);
-  display: flex;
-  justify-content: space-between;
-  cursor: pointer;
-}
-details summary::after {
-  content: '🞃';
-  font-size: 1em;
-  font-family: monospace;
-  line-height: 1em;
-  display: flex;
-  align-items: center;
-}
-details[open] summary {
-  border-bottom: 1px solid #000;
-  margin-bottom: 0.5em;
-}
-details[open] summary::after {
-  content: '🞁';
-}
-
 blockquote {
   padding: 1em 2.75em;
   border: solid 2px #666;
@@ -204,12 +164,12 @@ blockquote::after {
 }
 blockquote::before {
   content: open-quote;
-  top: -15px;
+  top: -0.24em;
   left: 2px;
 }
 blockquote::after {
   content: close-quote;
-  bottom: -76px;
+  bottom: -0.6em;
   right: 0px;
 }
 blockquote p:first-of-type {
@@ -230,6 +190,7 @@ blockquote p:last-of-type {
 :not(pre) > code {
   font-family: monospace;
   font-size: calc(1em - 2px);
+  white-space: nowrap;
   padding: 0 0.4em;
   border-radius: 0.5em;
   border: solid 1px rgb(0 0 0 / 12%);
@@ -316,17 +277,24 @@ header {
 
 .toc-b2t__link {
   color: var(--textBarColor);
-  text-shadow: var(--textBarTextShadow);
   font-weight: bold;
   outline: var(--textBarOutline);
   box-shadow: var(--textBarBoxShadow);
   padding: 0.25em;
   padding-right: 0.75em;
+  padding-left: 1.5em;
   border-radius: 0.5em 0 0 0.5em;
-  margin-right: -0.25em;
-  background-color: var(--textBarBGColor);
-  background-image: var(--textBarGrad);
+  margin-right: 0.25em;
+  background-color: #6a6781;
   z-index: 1;
+}
+.toc-b2t__link .plugin-icon {
+  height: 0.8em;
+  width: 0.8em;
+  position: absolute;
+  left: 0.35em;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .page__timestamp {
@@ -433,82 +401,21 @@ header {
   box-shadow: 0 2px 6px 0 rgb(0 0 0 / 50%);
 }
 
-/* h1, h2, h3, h4, h5, h6 {
-  margin: 0 0 0.5em 0;
-  font-weight: 400;
-  line-height: 1.2;
+.drawer {
+  overflow: hidden; /* for inner shadow */
+  outline: var(--textBarOutline);
+  background: #333;
+  box-shadow: var(--textBarBoxShadow);
 }
-
-h1 {
-  font-size: 2em;
+.drawer:not(:first-of-type) {
+  margin-top: 1em;
 }
-
-a {
-  color: inherit;
-}
-
-
-
-button {
-  font-size: 1em;
-  padding: 0.5em;
-  display: block;
-}
-button:not(:disabled) {
-  cursor: pointer;
-}
-button * {
-  pointer-events: none;
-}
-
-input {
-  font-size: 1em;
-}
-input[type="text"] {
-  padding: 0.25em;
-}
-  
-label:has(> input) {
-  line-height: 1em;
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  cursor: pointer;
-  user-select: none;
-}
-
-form button {
-  width: 100%;
-  color: #eee;
-  padding: 0.75em 1em;
-  border: none;
-  border-radius: 0.25em;
-  background: #111;
-}
-
-form :where(input, textarea) {
-  border: solid 1px;
-  border-radius: 0.25em;
-}
-
-form > *:not(:last-child) {
-  margin-bottom: 1em;
-}
-
-p {
-  margin: 0;
-}
-p:not(:last-child) {
-  margin-bottom: 1em;
-}
-
-q {
-  color: #501600;
-  font-style: italic;
-  font-family: serif;
+.drawer__title {
+  color: var(--textBarColor);
   font-weight: bold;
-  padding: 0 0.5em;
-  border-radius: 0.25em;
-  background: #ffeb00;
-  display: inline-block;
-} */
+  text-shadow: var(--textBarTextShadow);
+  border: unset;
+  background-color: var(--textBarBGColor);
+  background-image: var(--textBarGrad);
+  box-shadow: 0 10px 20px 10px rgb(0 0 0 / 75%);
+}

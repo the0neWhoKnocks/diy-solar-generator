@@ -11,9 +11,8 @@ Since parts/tools and prices change over time, this is mainly a reference of wha
 
 I've roughly ordered items by usage, so you can tackle things incrementally and not purchase everything at once.
 
-<details open>
-  <summary title="Click to toggle">Tools</summary>
-  
+{% drawer 'Tools', true %}
+
   |<!--{table:.pt-table}-->   | Tool | Usage |
   | - | --------- | ----- |
   | {% imgPopUp 'mani:imgs/parts/gloves', 'Ansell ActivArmr Multipurpose Gloves' %} | [Ansell ActivArmr Multipurpose Gloves](https://www.amazon.com/dp/B009EAMCPS) | Worn when handling anything on a live circuit. |
@@ -26,11 +25,11 @@ I've roughly ordered items by usage, so you can tackle things incrementally and 
   | {% imgPopUp 'mani:imgs/parts/multi-tool', 'DEWALT 20V Multitool Kit' %} | [DEWALT 20V Multitool Kit](https://www.amazon.com/dp/B085B253MD) | Used for cutting plastic and metal. |
   | {% imgPopUp 'mani:imgs/parts/multi-tool-blades', 'Multitool Blade Kit' %} | [Multitool Blade Kit](https://www.amazon.com/dp/B07TSBTDJ2) | Blades for cutting different surfaces. Specifically the blade for plastics, and the round blade are what I used. |
   | {% imgPopUp 'mani:imgs/parts/hole-saw-kit', 'Lenox 13 Piece Bi-Metal Hole Saw Kit' %} | [Lenox 13 Piece Bi-Metal Hole Saw Kit](https://www.amazon.com/dp/B004YKD68K) | To cut holes in case for front-facing electronics. |
-</details>
+  
+{% enddrawer %}
 
-<details open>
-  <summary title="Click to toggle">Parts</summary>
-
+{% drawer 'Parts', true %}
+  
   |<!--{table:.pt-table}-->   | Part | Usage |
   | - | --------- | ----- |
   | {% imgPopUp 'mani:imgs/parts/ridgid-case-w-cart', 'Rolling Tool Box' %} | [RIDGID Rolling Tool Box](https://www.homedepot.com/p/320483537) | The case for everything. |
@@ -87,4 +86,5 @@ I've roughly ordered items by usage, so you can tackle things incrementally and 
   |<!--{tr:.optional}--> {% imgPopUp 'mani:imgs/parts/10awg-20v-50ft-ext-cord', 'Extension Cord' %} | [Yellow Jacket 50ft 10AWG 20A Extension Cord](https://www.homedepot.com/p/204667727) | This'll save you from lugging the generator around. This combined with the power strip should give you power a good distance away. |
   |<!--{tr:.optional}--> {% imgPopUp 'mani:imgs/parts/4-in-1-15-amp-ac-plug-t-blade-adapter', 'AC T-Blade Adapter' %} | [4-in-1 15 Amp AC Plug to 20 Amp T-Blade Adapter](https://www.amazon.com/dp/B081YN8BK9) | To use the long heavy-duty extension cord in a normal AC outlet. |
   |<!--{tr:.optional}--> {% imgPopUp 'mani:imgs/parts/ridgid-2nd-case', 'Modular Tool Box' %} | [RIDGID Modular Tool Box](https://www.homedepot.com/p/320483663) | Optional storage that stacks and locks onto the main case. I have other emergency supplies in it, and can wheel the whole thing around. |
-</details>
+  
+{% enddrawer %}

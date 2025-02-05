@@ -5,8 +5,8 @@
 }
 
 @keyframes popupIcon {
-  0% { font-size: 1em; }
-  100% { font-size: 1.75em; }
+  0% { transform: scale(0.4); }
+  100% { transform: scale(1); }
 }
 @keyframes popupSpinner {
   0% { transform: rotate(45deg); }
@@ -19,14 +19,14 @@
 .img-popup img {
   pointer-events: none;
 }
-.img-popup:not(:has(.is--inactive))::after {
-  content: '🗖';
+.img-popup.is--inactive .plugin-icon {
+  display: none;
+}
+.img-popup .plugin-icon {
   width: 2rem;
   height: 2rem;
-  line-height: 1px;
-  overflow: hidden;
   border: solid 1px;
-  background: #ffffca;
+  background: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,10 +35,17 @@
   right: 0.25rem;
   opacity: 0.5;
   pointer-events: none;
-  
 }
-.img-popup:hover::after {
+.img-popup .plugin-icon use {
+  stroke: currentColor;
+  stroke-width: 1px;
+  transform: scale(0.4);
+  transform-origin: center;
+}
+.img-popup:hover .plugin-icon {
   opacity: 1;
+}
+.img-popup:hover .plugin-icon use {
   animation-name: popupIcon;
   animation-duration: 1s;
   animation-timing-function: steps(4, end);
@@ -110,6 +117,8 @@
 }
 .img-popup-dialog nav button {
   padding: 1em 0.5em;
+  border: unset;
+  border-radius: 0.5em;
   display: flex;
   pointer-events: all;
 }

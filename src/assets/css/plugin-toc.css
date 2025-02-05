@@ -19,20 +19,25 @@
 .toc:not(:has(.toc__label)) > ul {
   border-radius: 0.5em;
 }
-.toc > ul li ul {
-  padding-left: unset;
-}
-.toc ul li::marker {
-  margin-right: 0.25em;
-}
 .toc ul li {
-  list-style-type: '⏺ ';
+  list-style: none;
   margin: unset;
   margin-left: 2.5ch;
   margin-top: 0.25em;
+  position: relative;
 }
 .toc > ul > li:first-of-type {
   margin-top: unset;
+}
+.toc > ul li ul {
+  padding-left: unset;
+}
+
+.toc ul li > .plugin-icon {
+  font-size: 0.7em;
+  position: absolute;
+  top: 0.2em;
+  left: -1.5em;
 }
 
 :has(> .toc-b2t) {
