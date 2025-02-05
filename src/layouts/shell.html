@@ -15,34 +15,36 @@
     <link rel="stylesheet" href="{{ manifest['css/theme.css'] }}">
   </head>
   <body>
-    <main class="page">
-      <header>
-        <nav class="page__main-menu">
-          {% assign navPages = collections.page | eleventyNavigation %}
-          <ul>
-          {%- for entry in navPages %}
-            <li {% if entry.url == page.url %}class="is--current"{% endif %}>
-              <a href="{{ entry.url }}">{{ entry.title }}</a>
-            </li>
-          {%- endfor %}
-          </ul>
-        </nav>
-        <h1
-          class="page__title"
-          data-text="{{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}"
-        >
-          <div>
-            {{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}
+    <div class="wrapper">
+      <main class="page">
+        <header>
+          <nav class="page__main-menu">
+            {% assign navPages = collections.page | eleventyNavigation %}
+            <ul>
+            {%- for entry in navPages %}
+              <li {% if entry.url == page.url %}class="is--current"{% endif %}>
+                <a href="{{ entry.url }}">{{ entry.title }}</a>
+              </li>
+            {%- endfor %}
+            </ul>
+          </nav>
+          <h1
+            class="page__title"
+            data-text="{{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}"
+          >
+            <div>
+              {{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}
+            </div>
+          </h1>
+        </header>
+        <article class="for--{{ page.class }}">
+          <div class="page__timestamp">
+            Published: <time datetime="{{ page.pubDate }}">{{ page.pubDate }}</time>
           </div>
-        </h1>
-      </header>
-      <article class="for--{{ page.class }}">
-        <div class="page__timestamp">
-          Published: <time datetime="{{ page.pubDate }}">{{ page.pubDate }}</time>
-        </div>
-        {{ content }}
-      </article>
-    </main>
+          {{ content }}
+        </article>
+      </main>
+    </div>
     {%- for file in page.pluginDeps.js -%}
       <script src="{{ manifest[file] }}"></script>
     {%- endfor -%}

@@ -18,6 +18,7 @@ import { mkdirp } from 'mkdirp';
 import { rimraf } from 'rimraf';
 import sharp from 'sharp';
 import HeadingLinkPlugin from './src/plugins/HeadingLinkPlugin.mjs';
+import ImgPopupPlugin from './src/plugins/ImgPopupPlugin.mjs';
 import ToCPlugin from './src/plugins/ToCPlugin.mjs';
 
 
@@ -114,6 +115,7 @@ export default async function(config) {
     scrollSelector: '.wrapper',
   });
   config.addPlugin(HeadingLinkPlugin);
+  config.addPlugin(ImgPopupPlugin);
   
   const mdI = markdownIt({
     breaks: false,
@@ -293,26 +295,6 @@ export default async function(config) {
     
     // If not an HTML output, return content as-is
     return content;
-  });
-  
-  config.addShortcode('imgPopUp', function(lrgURL, alt) {
-    const mani = this.ctx?.environments?.manifest;
-    
-    if (mani) {
-      const parseURL = (url) => (url.startsWith('mani:'))
-        ? mani[url.replace(/^mani:/, '')]
-        : url;
-      const altAttr = (alt) ? ` alt="${alt}"` : '';
-      const ext = '.jpg';
-      
-      return [
-        `<a class="img-popup" href="${parseURL(`${lrgURL}${ext}`)}" target="_blank">`,
-        `  <img src="${parseURL(`${lrgURL}-thumb${ext}`)}"${altAttr} />`,
-        '</a>',
-      ].join('');
-    }
-    
-    return '<span>[ERROR: Missing manifest]</span>';
   });
   
   config.addPassthroughCopy({
