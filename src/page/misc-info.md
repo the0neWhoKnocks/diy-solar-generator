@@ -9,14 +9,6 @@ subTitle: Misc. Info
 
 {% ToC %}
 
-<!-- Uninstalling:
-
-1. __
-1. Drain inverter capacitors:
-   - Unhook inverter's black from the bus bar.
-   - Wrap resistor around open cable end and touch the open resistor end to the red terminal of the inverter.
-   - Remove resistor and tap black cable on red terminal. There shouldn't be a spark. -->
-
 ---
 
 ## AC & DC
@@ -328,6 +320,9 @@ Tinned copper is equally conductive to bare copper, but the tin coating improves
 
 <style>
   .wire-awg-chart { width: 100%; font-size: 0.9em; background: #FFF; }
+  @container page (max-width: 799px) {
+    .wire-awg-chart { font-size: 1.6vi; }
+  }
   .wire-awg-chart thead { position: sticky; top: var(--linkScrollOffset); }
   .wire-awg-chart td { text-align: center; white-space: nowrap; border-color: #000; }
   .wire-awg-chart__label { color: #000; font-weight: bold; background: #FFF; }

@@ -159,6 +159,7 @@ Some of the pictures don't align with the order of the below instructions. There
 <!--{ol:.steps}-->
 
 ---
+<!--{hr:.sep}-->
 
 I keep everything off and only turn on what I need on a per-case basis.
 - Need AC power: Open lid, turn on Inverter, close lid. Turn on Cooling switch since the Inverter can warm things up.
