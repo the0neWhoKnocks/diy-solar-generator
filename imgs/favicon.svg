@@ -1,0 +1,29 @@
+<svg
+  viewBox="0 0 64 64"
+  xmlns="http://www.w3.org/2000/svg"
+  transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)"
+>
+  <defs>
+    <radialGradient id="bgGradient" cx="0.45" cy="0.1" r="1">
+      <stop offset="0%" stop-color="#7ed0ec" />
+      <stop offset="75%" stop-color="#2201a6" />
+      <stop offset="100%" stop-color="#a535eb" />
+    </radialGradient>
+    <linearGradient id="boltGradient" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0%" stop-color="#c3ebf9" />
+      <stop offset="50%" stop-color="#83dfff" />
+      <stop offset="100%" stop-color="#83dfff" />
+    </linearGradient>
+  </defs>
+  <path
+    fill="url(#bgGradient)"
+    stroke-width="0.2"
+    transform="translate(0, 0), scale(4)"
+    d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z"
+  ></path>
+  <path
+    fill="url(#boltGradient)"
+    stroke-width="0.2"
+    d="M41.71,10.58H28l-7.4,22.28a.1.1,0,0,0,.09.13h8.49a.1.1,0,0,1,.1.13L22.71,52.76a.5.5,0,0,0,.88.45L43.41,26a.1.1,0,0,0-.08-.16H34.42a.11.11,0,0,1-.09-.15l7.47-15A.1.1,0,0,0,41.71,10.58Z"
+  ></path>
+</svg>

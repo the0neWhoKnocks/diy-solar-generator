@@ -1,0 +1,1 @@
+.h-link{margin:1em 0;display:flex;align-items:center;position:relative}.h-link :where(h1,h2,h3,h4,h5,h6){margin:unset}.h-link :where(h1,h2,h3,h4,h5,h6)+a{width:1.75em;height:1.75em;padding:.3em;position:absolute;left:-3.25ch;opacity:0}.h-link:hover a{opacity:1}
