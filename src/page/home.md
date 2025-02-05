@@ -16,8 +16,8 @@ Some of the pictures don't align with the order of the below instructions. There
     {% imgPopUp 'mani:imgs/diagram/solar-generator-wiring-diagram', 'Wiring diagram' %}
     :::
 1. Charge each battery individually to 100%. This is so that when you wire the batteries together the voltage is the same which protects the consistency of the batteries cells. Significant voltage differences between batteries can cause damage or uneven wear when connected together.
-1. Wire batteries in parallel. Used a 1/2" socket wrench to tighten. For wires with curves, try to gently pull them in the curve shape while tightening, otherwise they'll go whatever direction you're tightening.
-1. I used a fabric measuring tape to get rough measurements for cables and wires. Basically I was imagining where components would be and I'd run the tape along the route a cable or wire would go. Then it was a matter of cutting, crimping, soldering, taping, and heat-gunning until I had my completed cables/wires.<br />
+1. Wire batteries in parallel. I used a 1/2" socket wrench to tighten. For wires with curves, try to gently pull them in the curve shape while tightening, otherwise they'll go whatever direction you're tightening.
+1. I used a fabric measuring tape to get rough measurements for cables and wires. I was imagining where components would be and I'd run the tape along the route a cable or wire would go. Then it was a matter of cutting, crimping, soldering, taping, and heat-gunning until I had my completed cables/wires.<br />
     A lot of the components didn't have manuals or wiring diagrams, so I'm including them here to save you the headache.
     :::_ .imgs
     {% imgPopUp 'mani:imgs/diagram/shunt-wiring', 'Shunt wiring' %}
@@ -68,7 +68,7 @@ Some of the pictures don't align with the order of the below instructions. There
 1. Mount the 2-way switches and their temperature control panels. Connect the temp. control panels to their corresponding components (fans and heating pad).
 1. Mount the battery monitor. Plug the wire into the monitor and then the shunt.
 1. Mount the 4-in-1 panel. The connecting of it's wiring happens at the end to ensure it doesn't cause any tangling issues or get damaged.
-1. I cut some foam from that packaging that the batteries were shipped in. It's squishy when pressed from one side but stiff when pressed from the other. The stiff side will be facing the batteries once they're inserted. I secured the foam blocks with some double-sided tape. I would've preferred the left block to be up more (like the right side), but there wasn't room when the Inverter cables were in place.
+1. I cut some foam from the packaging the batteries were shipped in. It's squishy when pressed from one side but stiff when pressed from the other. The stiff side will be facing the batteries once they're inserted. I secured the foam blocks with some double-sided tape. I would've preferred the left block to be up more (like the right side), but there wasn't room when the Inverter cables were in place.
 1. For the red bus bar, here's what cables are connected (some aren't wired to components yet) in order from top to bottom:<br />
     (1) Inverter, (2) Battery, (3) Chargers (Anderson connectors for Solar & AC), (4) Cooling switch, heating switch, and 4-in-1 panel.
     :::_ .imgs
@@ -98,9 +98,9 @@ Some of the pictures don't align with the order of the below instructions. There
     :::
 1. The configuration I finally landed on for the Inverter/Charge Controller platform (cutting board), was:
     - Two long rails cut out the left side for the battery terminals. Without these, the platform added barely enough thickness so that the lid wouldn't close. The Inverter is slightly raised in the middle, so when it's mounted it doesn't touch the battery terminals.
-    - Two teeth with screw mounts along those cut out rail for the rear of the Inverter to mount on.
+    - Two teeth with screw mounts along those cut out rails for the rear of the Inverter to mount on.
     - A front left cut out for access to the circuit breaker.
-    - A front right cut out for the cable bundle.
+    - A front right cut out for the cable bundle (2x extension cords and the wires for the Charge Controller).
     - 3 screw mounts for the Solar Charge Controller.
 1. With the Solar Charge Controller mounted, place the platform over the batteries. I had to insert it at an angle due to the 4-in-1 panel terminals. Wire up the Solar Charge Controller, and then the 4-in-1 panel.
     :::_ .imgs
@@ -133,7 +133,7 @@ Some of the pictures don't align with the order of the below instructions. There
    - Go into the Bluetooth list on your device and there should be a listing for `SmartSolar`. It'll ask for a pin during the first connect, the default is `000000`.
    - Open the app and your device should be there. The first time you try to connect, it may prompt to update firmware (did it twice for me). Only takes a few minutes.
    - Once connected, it'll prompt to change the pin (change it to whatever 6 digit number you prefer).
-1. Turn on the Inverter, 4-in-1, and Cooling/Heating switches to ensure things are functioning as expected.
+1. Turn on the Inverter, 4-in-1 panel, and Cooling/Heating switches to ensure things are functioning as expected.
     :::_ .imgs
     {% imgPopUp 'mani:imgs/build/18-build', 'build step 18' %}
     {% imgPopUp 'mani:imgs/build/19-build', 'build step 19' %}
@@ -150,7 +150,7 @@ Some of the pictures don't align with the order of the below instructions. There
     :::_ .imgs
     {% imgPopUp 'mani:imgs/build/25-build', 'build step 25' %}
     :::
-1. To cover fans I used some magnetic vent covers. Unfortunately Aluminum (which the fan covers are made of) is not magnetic. To get around that, I attached some magnetic strips with adhesive backing above and below the fans and cut the covers to shape. You'll also see I replaced the exterior metal nuts (for the bus bars, shunt, and breaker) with black plastic acorn nuts (which are much more pleasant to accidentally bump into).
+1. To cover the fans I used some magnetic vent covers. Unfortunately Aluminum (which the fan covers are made of) is not magnetic. To get around that, I attached some magnetic strips with adhesive backing above and below the fans and cut the covers to shape. You'll also see I replaced the exterior metal nuts (for the bus bars, shunt, and breaker) with black plastic acorn nuts (which are much more pleasant to accidentally bump into).
     :::_ .imgs
     {% imgPopUp 'mani:imgs/build/26-build', 'build step 26' %}
     {% imgPopUp 'mani:imgs/build/27-build', 'build step 27' %}

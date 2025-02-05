@@ -30,31 +30,28 @@ To automate that process I `source` [this script](https://github.com/the0neWhoKn
 | `startcont` |	Starts and enters the Container in development mode. |
 | `entercont` | Enter the running development Container to debug or what ever. |
 
-Install dependencies
+Install dependencies:
 ```sh
 # This should be run from within the Docker container to ensure Dev dependencies are installed.
 npm i
 ```
 
-Run the App
+Generate static pages:
 ```sh
-# Prod mode
-nr start
+nr build
+```
 
-# Dev mode
+Run a local server that watches changes and allows you to preview content in your Browser:
+```sh
 nr start:dev
 ```
 
----
-
-## Docker
-
+Resize hi-res images to their largest web-ready sizes:
 ```sh
-# Compile Production code (required since the assets are copied over)
-nr build
-# Build and start the container
-dc up --build solar-generator
+# Dump your hi-res images in these folders:
+# - ./.ignore/imgs/build/
+# - ./.ignore/imgs/diagram/
 
-# Or just start the container if you have 'dist' mapped or you just want to use the old build
-dc up solar-generator
+nr resize:build
+nr resize:diagram
 ```

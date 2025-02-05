@@ -7,6 +7,8 @@ page:
 subTitle: Misc. Info
 ---
 
+This is all the misc. info I gathered during the project. Perhaps some of it will be helpful to someone if they decide to tackle a similar project.
+
 {% ToC %}
 
 ---
@@ -66,7 +68,7 @@ An electric current that flows consistently in one single direction. The intensi
 **What are examples of household appliances that convert AC to DC?**
 > Most phone chargers, laptop chargers, LED light bulbs with built-in drivers, computer power supplies, televisions, microwaves, and any device with a "power brick" that plugs into a wall outlet as they all need to convert the AC from the wall to a stable DC to operate properly.
 
-**Since appliances convert AC to DC, why can't I just plug into DC?**
+**Since appliances convert AC to DC, why can't I plug directly into DC?**
 > Most appliances run on DC internally, but are wired for the AC to DC conversion since most things that supply power are AC and the conversion supplies a specific voltage to the device. Running from a random DC source that's not configured to supply a specific limited amount of voltage could burn out/damage your appliance.
 
 ---
@@ -77,7 +79,7 @@ An electric current that flows consistently in one single direction. The intensi
 - When you wire panels in series, the voltage stacks. When you wire panels in parallel, the amperage stacks.
 - The length of wire from inverter to battery can cause resistance (heat) if it's too long.
 - The percentage efficiency of an inverter is how much you subtract from battery life. So if an inverter is 92% efficient, it's eating the other 8%.
-- If a panel has a max voltage of something like 18.6v, you should round it up to 20 since panels output more on very cold days.
+- If a solar panel has a max voltage of something like 18.6v, you should round it up to 20 since panels output more on very cold days.
 
 ---
 
@@ -134,8 +136,8 @@ To determine the fuse size coming from the battery to the inverter, multiply the
 1. Get the max current for the inverter
     ```clike
     MaxCurrent = Watts / Volts / Efficiency
-                  2000W /  12V  / 85%
-                  2000  /  12   / 0.85 = 196
+                 2000W /  12V  / 85%
+                 2000  /  12   / 0.85 = 196
     ```
 1. Get the fuse/breaker size. The buffer size of `1.25` comes from the national electric code and because running fuses and breakers _**at**_ their rated current for extended periods will eventually cause them to blow or trip.
     ```clike
@@ -154,7 +156,7 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
 ### Wiring in Series
 
 - Volts are multiplied by number of panels, and Amps are the same.
-- **Pros**: Simpler, cheaper, easier to manage. Solar panels >= 100W have bypass diodes so if a panel is shaded it just goes into bypass, which means the array can continue producing and (for the most part) only the shaded panel's output drops off. 
+- **Pros**: Simpler, cheaper, easier to manage. Solar panels >= 100W have bypass diodes so if a panel is shaded it goes into bypass, which means the array can continue producing and (for the most part) only the shaded panel's output drops off. 
 - **Cons**: Like old christmas lights, if one panel is in shade or malfunctioning, none of the panels produce power.
 
 :::_ .drawing
@@ -228,7 +230,7 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
 ### Wiring In Parallel
 
 - 12V/80A - AH (Amp Hours) are multiplied by number of batteries.
-- To ensure current is being pulled evenly across the battery array, you should hook the negative to one end and positive to the other. You can hook them both up to just one end (one battery) but it may strain that one battery.
+- To ensure current is being pulled evenly across the battery array, you should hook the negative to one end and positive to the other. You can hook them both up to one end (one battery) but it may strain that one battery.
 - You can use one battery monitor for batteries connected in parallel because when wired this way, all the batteries act as a single unit with the same voltage, so monitoring one battery effectively monitors the entire parallel bank.
 
 :::_ .drawing
@@ -280,7 +282,7 @@ In the case where you end up with a fuse amperage that's difficult to find, go w
 ### Types of Controllers
 
 - `PWM`: Pulse-Width Modulation
-- `MPPT`: Maximum Power Point Tracking
+- `MPPT`: Maximum Power Point Tracking (most ofter recommended)
 
 ### Determining the Correct Controller
 
@@ -288,7 +290,7 @@ When specing out a controller, there are commonly two numbers called out, someth
 - `100` is the maximum input voltage. If your panels deliver more than that, it'll fry the controller. You can determine how much the panel could deliver via the `Voc` (Open circuit voltage), which should be listed on the panel or it's included pamphlet. So if a panel states something like `28V+5%`, `28` is the max, and pad it out by 20%, so on a cold clear day the panel may output `34V` (not common, but could happen).
 - `50` is the maximum output amperage. If you exceed it, the controller will likely get stuck in a reset/reboot loop. So if the battery/inverter is outputting 13V and you have panels in series bringing in 600V, you'd divide `600V` by `13V` which would be `46`. So with fluctuations in solar output, that `46` could spike above the allowed `50`, causing a reset.
 
-Generally, a larger battery charge voltage equates to a cheaper charge controller.
+Generally, a larger battery charge voltage equates to a cheaper charge controller. Not "cheaper" as in bad quality, it just costs less to make.
 
 ### Wiring a Controller
 
@@ -302,7 +304,7 @@ Fuses & breakers exist to protect wires not equipment.
 
 It is not okay to use a fuse that is slightly higher than the recommended amperage of your wire since it can lead to potential safety hazards like overheating/melting wires, damage to electrical components, and increased fire risk; always use a fuse that matches the specified amperage or a slightly lower one if necessary to ensure proper protection.
 
-Some devices call out operating values (consistent running) and variable values (can handle up to X value for a finite time before failure). To avoid constant breaker trips or fuse burnouts, spec fuses or breakers to something slightly below variable values. So if a component can handle spikes of up to `50A`, but is rated for `30A`, go with a `40A` fuse/breaker. Of course your wire will need to be rated for at least `50A` for safety.
+Some devices call out operating values (consistent running) and variable values (can handle up to X value for a finite time before failure). To avoid constant breaker trips or fuse burnouts, spec fuses or breakers to something slightly below variable values. So if a component can handle spikes of up to `50A`, but is rated for `30A`, go with a `40A` fuse/breaker. Your wire will need to be rated for at least `50A` for safety.
 
 ---
 
@@ -481,7 +483,7 @@ This would include a receptacle, but it would also include the point at which a 
 According to the NEC, a receptacle is:
 > A contact device installed at the outlet for connection of an attachment plug.
 
-In other words, a receptacle is a type of outlet. A receptacle is a device that you can plug something into to power that device. In other words, a receptacle receives the plug, just like a trash receptacle receives trash. 
+In other words, a receptacle is a type of outlet. A receptacle is a device that you can plug something into to power that device. In other words, a receptacle receives the plug, like a trash receptacle receives trash. 
 
 
 | Type | Usage |
@@ -507,11 +509,19 @@ In other words, a receptacle is a type of outlet. A receptacle is a device that 
 
 ## Sources
 
+In no particular order.
+
+### Videos
+
 - Will Prowse
    - [Beginner Friendly 48V Solar Power System! Step by step!](https://www.youtube.com/watch?v=3hukFwgTFI0)
    - [Cold Temperature LiFePO4 Heater on a Budget! Beginner Friendly](https://www.youtube.com/watch?v=m1T7S1J-Zxs)
    - [(2019) DIY 400 Watt 12 volt Solar Power System Beginner Tutorial: Great for RV's and Vans! (Part 1)](https://www.youtube.com/watch?v=IRRKHYwB3Uo&t=397s)
    - [(2019) DIY 400 Watt Solar Power System Beginner Tutorial (Part 2)](https://www.youtube.com/watch?v=BgUErK5jGfk)
+- AZ Outdoors: Uses a Ridgid case as well with a much different configuration. He did some really clean work.
+    - [DIY Solar Generator](https://youtu.be/udzYjjmJqrE)
+    - [Emergency Power Station](https://youtu.be/xu9DxwURXH8)
+- [I.B. Lancer - DIY Solar Power Pack. With Dual Charging](https://youtu.be/wPG2LPbW4Us). Really clean compact build in a small Ridgid case.
 - [Fish N' Stuff - Beginner Solar Project (shed lights)](https://youtu.be/w1b8DAO5dTQ)
 - [Sizing an MPPT Charge Controller Basics](https://www.youtube.com/watch?v=GaPaoIjy5Ko)
 - [Series vs Parallel Solar Panel Wiring Basics - Volts, Amps, Cost & More Explained](https://youtu.be/Kz5JbXTo4rM?t=75&si=Glj_Q9wiNEKOrFYt)
@@ -520,17 +530,17 @@ In other words, a receptacle is a type of outlet. A receptacle is a device that 
 - [How to Install Busbars in a Solar Panel System](https://www.youtube.com/watch?v=9FlvpMhWcLo)
 - [DIY Battery Heater for Li-Ion Batteries](https://www.youtube.com/watch?v=lPFlTh0e4Os)
 - [DIY Portable 3000W Solar Generator LiFePo4 302AH 3.86KW](https://www.youtube.com/watch?v=oFEJgE-RHNA)
-- [Determining fuse/breaker size](https://diysolarforum.com/threads/determining-fuse-size-and-inverter-considerations.54082/post-691126)
 - [Wiring Batteries in Series and Parallel](https://www.youtube.com/watch?v=gffnkJQxRAg)
 - [DIY SOLAR Battery Banks - Parallel? Series? Both??: What, Why & HOW! Beginner Friendly](https://youtu.be/EDLxolJ0QxI?t=723)
-- [AC vs DC, guide to electrical currents](https://www.anker.com/blogs/ac-power/ac-vs-dc-power-the-ultimate-guide-to-electrical-currents)
 - [Test solar panel with multimeter](https://m.youtube.com/watch?v=UnZ0-ZLm1KE)
 - [Building a 12V Battery & Solar System: Do's and Don'ts and All the Basics You Need to Know](https://www.youtube.com/watch?v=PG7RzOyj3ME)
 - [Electric Cable & Fuse Sizing](https://youtu.be/koFg6oFs0RU?t=559)
 - [Pre-charging inverter](https://youtu.be/ZlrtmJRfSP8), [pre-charge w light bulb](https://youtu.be/DOrJ5AH9yjM?si=1B1FfYDU2aUIHD4o)
 - [Wiring order (charge controller -> inverter -> fuse box)](https://youtu.be/IRRKHYwB3Uo?t=665)
-- https://www.mobile-solarpower.com/the-classic-400-watt-rvs-vans-buses.html
 - [Step by Step Complete 12 Volt Power System](https://www.youtube.com/watch?v=c5OYHqtUFzw)
-- https://youtu.be/udzYjjmJqrE
-- https://youtu.be/xu9DxwURXH8
-- https://youtu.be/wPG2LPbW4Us
+
+### Articles
+
+- [Determining fuse/breaker size](https://diysolarforum.com/threads/determining-fuse-size-and-inverter-considerations.54082/post-691126)
+- [AC vs DC, guide to electrical currents](https://www.anker.com/blogs/ac-power/ac-vs-dc-power-the-ultimate-guide-to-electrical-currents)
+- https://www.mobile-solarpower.com/the-classic-400-watt-rvs-vans-buses.html
