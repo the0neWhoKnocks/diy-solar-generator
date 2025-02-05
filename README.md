@@ -7,9 +7,9 @@
 
 ## View the Docs
 
-[Open the Compiled GH Pages](https://the0newhoknocks.github.io/docs.diy-solar-generator/)
+[Open the Compiled GH Pages](https://the0newhoknocks.github.io/diy-solar-generator/)
 
-[![GH Pages Build](https://github.com/the0neWhoKnocks/docs.diy-solar-generator/actions/workflows/gh-pages.yml/badge.svg?branch=main)](https://github.com/the0neWhoKnocks/docs.diy-solar-generator/actions/workflows/gh-pages.yml)
+[![GH Pages Build](https://github.com/the0neWhoKnocks/diy-solar-generator/actions/workflows/gh-pages.yml/badge.svg?branch=main)](https://github.com/the0neWhoKnocks/diy-solar-generator/actions/workflows/gh-pages.yml)
 
 ---
 
