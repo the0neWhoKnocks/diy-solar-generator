@@ -1,0 +1,28 @@
+name: GH Pages
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    env:
+      CI: true
+      IN_CONTAINER: true
+    steps:
+      # https://github.com/actions/checkout
+      - name: 🛎️ Checkout
+        uses: actions/checkout@v4.2.2
+      
+      - name: 🔧 Install and Build
+        run: npm ci && npm run build
+      
+      # https://github.com/JamesIves/github-pages-deploy-action
+      - name: 🚀 Deploy
+        uses: JamesIves/github-pages-deploy-action@4.7.2
+        with:
+          branch: gh-pages
+          folder: "./dist"

@@ -1,7 +1,15 @@
 # Solar Generator
 
+- [View the Docs](#view-the-docs)
 - [Development](#development)
-- [Docker](#docker)
+
+---
+
+## View the Docs
+
+[Open the Compiled GH Pages](https://the0newhoknocks.github.io/docs.diy-solar-generator/)
+
+[![GH Pages Build](https://github.com/the0neWhoKnocks/web-components/actions/workflows/gh-pages.yml/badge.svg?branch=main)](https://github.com/the0neWhoKnocks/web-components/actions/workflows/gh-pages.yml)
 
 ---
 
