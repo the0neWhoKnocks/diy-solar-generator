@@ -10,6 +10,21 @@
   --textBarTextShadowColor: rgb(0 0 0 / 40%);
   --textBarTextShadow: 1px 1px 2px var(--textBarTextShadowColor), -1px 1px 2px var(--textBarTextShadowColor), 1px -1px 2px var(--textBarTextShadowColor), -1px -1px 2px var(--textBarTextShadowColor);
   --toc__b2tOffset: var(--linkScrollOffset);
+  
+  --s: 7px;
+  --c1: #2c3030;
+  --c2: #1c1c1c;
+  --c: #0000 71%,var(--c1) 0 79%,#0000 0;
+  --_s: calc(var(--s)/2)/calc(2*var(--s)) calc(2*var(--s));
+}
+
+@font-face {
+  font-family: AgdasimaBold;
+  src: url(/css/fonts/Agdasima-Bold.ttf); /* from Google Fonts */
+}
+@font-face {
+  font-family: FiraCode;
+  src: url(/css/fonts/FiraCode-VariableFont.ttf); /* from Google Fonts */
 }
 
 *, *::after, *::before {
@@ -25,6 +40,10 @@ body {
   color: #333;
   font-family: sans-serif;
   font-size: 16px;
+  background:
+    linear-gradient(45deg,var(--c)) calc(var(--s)/-2) var(--_s),
+    linear-gradient(135deg,var(--c)) calc(var(--s)/2) var(--_s),
+    radial-gradient(var(--c1) 35%,var(--c2) 37%) 0 0/var(--s) var(--s);
 }
 
 .wrapper {
@@ -32,7 +51,7 @@ body {
   height: 100vh;
   overflow: auto;
   scrollbar-gutter: stable;
-  background: #333;
+  background-image: linear-gradient(to bottom, #00000069, #ff000000, #000000), linear-gradient(110deg, #419fff24, #ff000000, #563c8159);
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -200,10 +219,6 @@ blockquote p:last-of-type {
   margin-bottom: unset;
 }
 
-@font-face {
-  font-family: FiraCode;
-  src: url(/css/fonts/FiraCode-VariableFont.ttf); /* from Google Fonts */
-}
 :is(pre, code)[class*=language-] {
   font-family: FiraCode;
 }
@@ -233,7 +248,10 @@ header {
   z-index: 1;
   flex-shrink: 0;
 }
+
 .page__title {
+  font-family: AgdasimaBold;
+  letter-spacing: 2px;
   margin: unset;
   position: absolute;
   bottom: 1.5em;
