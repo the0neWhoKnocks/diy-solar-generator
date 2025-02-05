@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto';
 import { constants as fsC, createReadStream } from 'node:fs';
 import { access, readFile, stat, writeFile } from 'node:fs/promises';
 import { basename, extname } from 'node:path';
-import { IdAttributePlugin } from '@11ty/eleventy';
+import { EleventyHtmlBasePlugin, IdAttributePlugin } from '@11ty/eleventy';
 import NavigationPlugin from '@11ty/eleventy-navigation';
 import InclusiveLangPlugin from '@11ty/eleventy-plugin-inclusive-language';
 import SyntaxHighlight from '@11ty/eleventy-plugin-syntaxhighlight';
@@ -97,6 +97,10 @@ export default async function(config) {
   config.pluginDeps = pluginDeps;
   config.addGlobalData('pluginDeps', pluginDeps);
   
+  config.pathPrefix = '/';
+  config.addPlugin(EleventyHtmlBasePlugin, {
+		baseHref: process.env.PATH_PREFIX || config.pathPrefix,
+	});
   config.addPlugin(CleanPlugin);
   config.addPlugin(IdAttributePlugin, {
     selector: '[id],h2,h3,h4,h5,h6',
@@ -197,11 +201,22 @@ export default async function(config) {
         case '.css': {
           pendingFiles.push(
             new Promise(async (resolve) => {
-              await createFile({
-                content: new CleanCSS().minify([file]).styles,
-                dir: 'css',
-                file,
-              });
+              let s = new CleanCSS().minify([file]).styles;
+              
+              // Since this is outside of the `EleventyHtmlBasePlugin` pipeline
+              // I have to parse all the absolute URLs so they work with GH pages.
+              if (process.env.PATH_PREFIX) {
+                s = s.replaceAll(/url\(([^)]+)\)/g, (a, b) => {
+                  let url = b;
+                  // I hate this.
+                  if (b.startsWith("'/")) url = b.replace("'/", `'${process.env.PATH_PREFIX}`);
+                  else if (b.startsWith('"/')) url = b.replace('"/', `"${process.env.PATH_PREFIX}`);
+                  else if (b.startsWith('/')) url = b.replace('/', `${process.env.PATH_PREFIX}`);
+                  return a.replace(b, url);
+                });
+              }
+              
+              await createFile({ content: s, dir: 'css', file });
               resolve();
             })
           );
