@@ -3,6 +3,7 @@ const ID__IMG = 'imgPopupImg';
 const ID__POPUP = 'imgPopup';
 const MODIFIER__CONTAINED = 'is--contained';
 const MODIFIER__LOADING = 'is--loading';
+const MODIFIER__ZOOMABLE = 'is--zoomable';
 const ROOT_CLASS = 'img-popup-dialog';
 const SELECTOR__PLUGIN = 'img-popup';
 const SELECTOR__COUNTER = `${ROOT_CLASS}__counter`;
@@ -24,20 +25,20 @@ function addDialog() {
                 <path stroke-linecap="round" fill="none" d="M02,10 C02,5.5 5.5,02 10,02"></path>
               </svg>
             </div>
-            <nav>
-              <button type="button" disabled>
-                <svg viewBox="0 0 100 50">
-                  <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" points="15, 15 50, 50 85, 15"></polyline>
-                </svg>
-              </button>
-              <button type="button" disabled>
-                <svg viewBox="0 0 100 50">
-                  <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" points="15, 15 50, 50 85, 15"></polyline>
-                </svg>
-              </button>
-            </nav>
-            <div class="${SELECTOR__COUNTER}"></div>
           </div>
+          <nav>
+            <button type="button" disabled>
+              <svg viewBox="0 0 100 50">
+                <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" points="15, 15 50, 50 85, 15"></polyline>
+              </svg>
+            </button>
+            <button type="button" disabled>
+              <svg viewBox="0 0 100 50">
+                <polyline fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" points="15, 15 50, 50 85, 15"></polyline>
+              </svg>
+            </button>
+          </nav>
+          <div class="${SELECTOR__COUNTER}"></div>
         </div>
       </custom-dialog>
     </div>
@@ -74,8 +75,37 @@ function checkIfImageCached(imgPath) {
   return img.complete;
 }
 
+let imgSizeDebounce;
+function checkImgSize(ev) {
+  const dur = (ev) ? 100 : 0;
+  
+  clearTimeout(imgSizeDebounce);
+  imgSizeDebounce = setTimeout(() => {
+    if (
+      els.img.naturalWidth > els.img.width
+      || els.img.naturalHeight > els.img.height
+    ) {
+      els.img.classList.add(MODIFIER__ZOOMABLE);
+    }
+    // User zoomed in, but started resizing view
+    else if (!els.img.classList.contains(MODIFIER__CONTAINED)) {
+      if (
+        els.img.naturalWidth === els.imgs.offsetWidth
+        && els.img.naturalHeight === els.imgs.offsetHeight
+      ) {
+        els.img.classList.add(MODIFIER__CONTAINED);
+        els.img.classList.remove(MODIFIER__ZOOMABLE);
+      }
+    }
+    else {
+      els.img.classList.remove(MODIFIER__ZOOMABLE);
+    }
+  }, dur);
+}
+
 function handleDialogClosed() {
   window.removeEventListener('keyup', handleKeyboardNavigation);
+  window.removeEventListener('resize', checkImgSize);
   els.popup.remove();
 }
 
@@ -89,6 +119,9 @@ function handleKeyboardNavigation({ key }) {
 function handleLoadedImage(img) {
   removeLoadingState();
   img.src = img.dataset.src;
+  img.classList.add(MODIFIER__CONTAINED);
+  
+  checkImgSize();
 }
 
 function loadImage(imgPath, cb) {
@@ -128,7 +161,9 @@ function setImgSrc() {
 
 function setUpImgZoom() {
   els.img.addEventListener('pointerup', () => {
-    els.img.classList.toggle(MODIFIER__CONTAINED);
+    if (els.img.classList.contains(MODIFIER__ZOOMABLE)) {
+      els.img.classList.toggle(MODIFIER__CONTAINED);
+    }
   });
 }
 
@@ -160,6 +195,10 @@ function showPrevImg() {
   }
 }
 
+function watchViewportSize() {
+  window.addEventListener('resize', checkImgSize);
+}
+
 document.addEventListener('click', (ev) => {
   const el = ev.target;
   
@@ -173,6 +212,7 @@ document.addEventListener('click', (ev) => {
     preloadImg();
     setUpImgZoom();
     setUpNav();
+    watchViewportSize();
   }
 });
 
