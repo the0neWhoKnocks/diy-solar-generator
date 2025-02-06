@@ -34,6 +34,7 @@ const getDate = async (fP, type) => {
 
 export default {
   page: {
+    ogURL: (process.env.OG_URL) ? process.env.OG_URL : undefined,
     pubDate: async ({ page }) => {
       const created = await getDate(page.inputPath, 'created');
       const modified = await getDate(page.inputPath, 'modified');

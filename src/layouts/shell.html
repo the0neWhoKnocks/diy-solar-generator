@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>{{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}</title>
-    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    {% capture pageTitle %}{{ constants.title }}{% if subTitle %}: {{ subTitle }}{% endif %}{% endcapture %}
+    <title>{{ pageTitle }}</title>
+    <meta name="title" content="{{ pageTitle }}" />
+    <meta name="description" content="{{ constants.desc }}" />
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="{{ page.ogURL }}" />
+    <meta property="og:title" content="{{ pageTitle }}" />
+    <meta property="og:description" content="{{ constants.desc }}" />
+    <meta property="og:image" content="/imgs/og-img.jpg" />
     
     <link rel="icon" href="/imgs/favicon.svg" sizes="any" type="image/svg+xml">
     
