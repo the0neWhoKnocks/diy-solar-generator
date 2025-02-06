@@ -226,6 +226,7 @@ header {
   content: attr(data-text);
   color: transparent;
   background: linear-gradient(#ddf9ff 20%, #bcf0ff 40%, 46%, #dbe1ff 67%, #ffe0ff 79%);
+  -webkit-background-clip: text;
   background-clip: text;
   position: absolute;
   top: 0;
