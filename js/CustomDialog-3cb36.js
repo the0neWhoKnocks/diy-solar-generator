@@ -1,23 +1,23 @@
-(()=>{const c="--dialog-animDuration",l="--dialog--color--body",a="--dialog--color--border",i="--dialog--color--title--bg",n="--dialog--color--title--text",d="dialogClosed",t="dialog",m="#eee",p="#000",h="#333",u="#eee",b="[BODY]";class _ extends HTMLElement{get modal(){return this.hasAttribute("modal")}set modal(e){e===""||e==="true"||e===!0?this.setAttribute("modal",""):this.removeAttribute("modal"),this.render()}get open(){return this.hasAttribute("open")}set open(e){e===""||e==="true"||e===!0?(this.render(),this.setAttribute("open",""),this.els.dialog.setAttribute("open",""),this.els.wrapper.classList.add("in"),setTimeout(()=>{this.els.wrapper.addEventListener("click",this.handleCloseClick),window.addEventListener("keydown",this.handleKeyDown)},300)):(this.els.wrapper.removeEventListener("click",this.handleCloseClick),window.removeEventListener("keydown",this.handleKeyDown),this.els.wrapper.classList.add("out"),setTimeout(()=>{this.els.wrapper.classList.remove("in","out"),this.removeAttribute("open"),this.els.dialog.removeAttribute("open"),this.dispatchEvent(new CustomEvent(d,{bubbles:!0,detail:{modal:this.modal}}))},300))}static get observedAttributes(){return["modal","open"]}static get events(){return{closed:d}}attributeChangedCallback(e,o,s){if(!(o===""&&s==null)&&o!==s){let $=s;switch(e){default:this[e]=$}}}constructor(){super(),this.attachShadow({mode:"open"});const{shadowRoot:e}=this;e.innerHTML=`
+(()=>{const c="--dialog-animDuration",l="--dialog--color--body",a="--dialog--color--border",i="--dialog--color--title--bg",n="--dialog--color--title--text",d="dialogClosed",t="dialog",m="#eee",h="#000",p="#333",u="#eee",b="[BODY]";class _ extends HTMLElement{get modal(){return this.hasAttribute("modal")}set modal(e){e===""||e==="true"||e===!0?this.setAttribute("modal",""):this.removeAttribute("modal"),this.render()}get open(){return this.hasAttribute("open")}set open(e){e===""||e==="true"||e===!0?(this.render(),this.setAttribute("open",""),this.els.dialog.setAttribute("open",""),this.els.wrapper.classList.add("in"),setTimeout(()=>{this.els.wrapper.addEventListener("click",this.handleCloseClick),window.addEventListener("keydown",this.handleKeyDown)},300)):(this.els.wrapper.removeEventListener("click",this.handleCloseClick),window.removeEventListener("keydown",this.handleKeyDown),this.els.wrapper.classList.add("out"),setTimeout(()=>{this.els.wrapper.classList.remove("in","out"),this.removeAttribute("open"),this.els.dialog.removeAttribute("open"),this.dispatchEvent(new CustomEvent(d,{bubbles:!0,detail:{modal:this.modal}}))},300))}static get observedAttributes(){return["modal","open"]}static get events(){return{closed:d}}attributeChangedCallback(e,o,s){if(!(o===""&&s==null)&&o!==s){let $=s;switch(e){default:this[e]=$}}}constructor(){super(),this.attachShadow({mode:"open"});const{shadowRoot:e}=this;e.innerHTML=`
         <style>
           @keyframes dialogIn {
             0% {
               opacity: 0;
-              transform: translate(-50%, -90%);
+              transform: translateY(-30%);
             }
             100% {
               opacity: 1;
-              transform: translate(-50%, -50%);
+              transform: translateY(0%);
             }
           }
           @keyframes dialogOut {
             0% {
               opacity: 1;
-              transform: translate(-50%, -50%);
+              transform: translateY(0%);
             }
             100% {
               opacity: 0;
-              transform: translate(-50%, -10%);
+              transform: translateY(30%);
             }
           }
           @keyframes maskIn {
@@ -36,16 +36,13 @@
           :host {
             ${c}: 300ms;
             ${l}: ${m};
-            ${a}: ${p};
-            ${i}: ${h};
+            ${a}: ${h};
+            ${i}: ${p};
             ${n}: ${u};
             
             font: 16px Helvetica, Arial, sans-serif;
             position: fixed;
-            top: 0;
-            left: 0;
-            bottom: 0;
-            right: 0;
+            inset: 0;
             z-index: 10;
           }
           :host(:not([open])) {
@@ -60,6 +57,14 @@
         	}
           button:not(disabled) {
             cursor: pointer;
+          }
+          
+          .${t}-wrapper {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
           }
           
           .${t}__body button {
@@ -92,13 +97,8 @@
             padding: 0;
             border: solid 4px var(${a});
             border-radius: 0.5em;
-            margin: 0;
             background: var(${a});
             box-shadow: 0 0.75em 2em 0.25em rgba(0, 0, 0, 0.75);
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
           }
           
           .${t}__nav {
