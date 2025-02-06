@@ -1,5 +1,5 @@
 import { createHash } from 'node:crypto';
-import { constants as fsC, createReadStream } from 'node:fs';
+import { constants as fsC } from 'node:fs';
 import { access, readFile, stat, writeFile } from 'node:fs/promises';
 import { basename, extname } from 'node:path';
 import { EleventyHtmlBasePlugin, IdAttributePlugin } from '@11ty/eleventy';
@@ -25,13 +25,10 @@ import ToCPlugin from './src/plugins/ToCPlugin.mjs';
 
 const REPO_ROOT = process.cwd();
 const exists = (fp) => access(fp, fsC.F_OK);
-const genHash = (path) => new Promise((resolve, reject) => {
+const genHash = (content) => new Promise((resolve, reject) => {
  const hash = createHash('sha256');
- const rs = createReadStream(path);
- 
- rs.on('error', reject);
- rs.on('data', chunk => hash.update(chunk));
- rs.on('end', () => resolve(hash.digest('hex').substring(0, 5)));
+ hash.update(content);
+ resolve(hash.digest('hex').substring(0, 5));
 });
 
 export default async function(config) {
@@ -197,7 +194,7 @@ export default async function(config) {
       const parDir = `${baseConfig.dir.output}/${dir}`;
       const _ext = extname(file);
       const fName = `${basename(file, _ext)}${suffix}`;
-      const fHash = await genHash(file);
+      const fHash = await genHash(content);
       const newExt = ext || _ext;
       const newName = `${fName}-${fHash}${newExt}`;
       
