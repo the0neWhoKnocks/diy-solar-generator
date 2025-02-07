@@ -60,11 +60,10 @@
   top: var(--toc__b2tOffset);
   opacity: 0;
   transition: opacity 300ms;
-}
-.toc-b2t__link.is--hidden {
   visibility: hidden;
 }
 .toc-b2t__link.is--visible {
   opacity: 1;
   pointer-events: all;
+  visibility: visible;
 }

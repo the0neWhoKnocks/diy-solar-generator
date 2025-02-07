@@ -10,6 +10,7 @@ export default function ToCPlugin(conf, opts = {}) {
     insertBackToTopAfter: undefined,
     label: 'Table of Contents',
     scrollSelector: undefined,
+    title: 'Go back to the table of contents',
   };
   let pluginOpts = { ...defaultOpts, ...opts };
   
@@ -110,13 +111,16 @@ export default function ToCPlugin(conf, opts = {}) {
               const sSData = (pluginOpts.scrollSelector)
                 ? ` data-scroll-selector="${pluginOpts.scrollSelector}"`
                 : '';
+              const title = (pluginOpts.title)
+                ? ` title="${pluginOpts.title}"`
+                : '';
               added = true;
               
               return {
                 tag: false,
                 content: [
                   node,
-                  `<div class="toc-b2t"><a class="toc-b2t__link is--hidden" href="#toc-top"${sSData}>${pluginOpts.backToTopIcon}${pluginOpts.backToTopLabel}</a></div>`
+                  `<div class="toc-b2t"><a class="toc-b2t__link is--hidden" href="#toc-top"${title}${sSData}>${pluginOpts.backToTopIcon}${pluginOpts.backToTopLabel}</a></div>`
                 ],
               };
             }

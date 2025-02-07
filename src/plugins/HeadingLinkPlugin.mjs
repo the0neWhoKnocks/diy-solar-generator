@@ -33,7 +33,7 @@ export default function HeadingLinkPlugin(conf, opts = {}) {
               content: [
                 {
                   tag: node.tag,
-                  attrs: { ...node.attrs, tabindex: -1 },
+                  attrs: { ...node.attrs },
                   content: node.content,
                   updated: true,
                 },

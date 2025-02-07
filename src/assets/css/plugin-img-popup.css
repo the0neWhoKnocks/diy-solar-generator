@@ -140,6 +140,10 @@
 .img-popup-dialog nav button:not(:disabled) {
   cursor: pointer;
 }
+.img-popup-dialog nav button:not(:disabled):focus-visible {
+  outline: solid 2px color-mix(in srgb, currentColor 40%, transparent);
+  outline-offset: -4px;
+}
 .img-popup-dialog nav button svg {
   width: 1.5em;
   height: 1.1em;
